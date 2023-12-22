@@ -5,6 +5,7 @@
 
 using std::vector;
 using std::sort;
+using std::stable_sort;
 namespace PermutationII {
     class Solution {
     public:
@@ -46,8 +47,8 @@ namespace PermutationII {
         }
 
         static bool compareVector(vector<vector<int>> &nums1, vector<vector<int>> &nums2) {
-            sort(nums1.begin(), nums1.end());
-            sort(nums2.begin(), nums2.end());
+            stable_sort(nums1.begin(), nums1.end());
+            stable_sort(nums2.begin(), nums2.end());
             if (nums1.size() != nums2.size()) {
                 return false;
             }
