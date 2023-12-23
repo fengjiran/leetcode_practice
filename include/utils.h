@@ -7,12 +7,28 @@
 
 #include "gtest/gtest.h"
 
+#define null INT32_MIN
+
+// Definition for a binary tree node.
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+};
+
 bool Compare2DVector(std::vector<std::vector<int>> &nums1, std::vector<std::vector<int>> &nums2) {
-    std::stable_sort(nums1.begin(), nums1.end());
-    std::stable_sort(nums2.begin(), nums2.end());
     if (nums1.size() != nums2.size()) {
         return false;
     }
+
+    std::stable_sort(nums1.begin(), nums1.end());
+    std::stable_sort(nums2.begin(), nums2.end());
 
     for (int i = 0; i < nums1.size(); i++) {
         bool isEqual = std::equal(nums1[i].begin(), nums1[i].end(),
@@ -22,6 +38,26 @@ bool Compare2DVector(std::vector<std::vector<int>> &nums1, std::vector<std::vect
         }
     }
     return true;
+}
+
+bool Compare2DString(std::vector<std::string> &str1, std::vector<std::string> &str2) {
+    if (str1.size() != str2.size()) {
+        return false;
+    }
+
+    std::stable_sort(str1.begin(), str2.end());
+    std::stable_sort(str2.begin(), str2.end());
+
+    for (int i = 0; i < str1.size(); i++) {
+        if (str1[i] != str2[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+TreeNode* BuildBinaryTree(const std::vector<int>& nums) {
+    //
 }
 
 #endif //LEETCODE_PRACTICE_UTILS_H

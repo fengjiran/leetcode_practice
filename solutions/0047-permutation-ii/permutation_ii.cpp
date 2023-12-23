@@ -1,16 +1,12 @@
 //
 // Created by richard on 12/23/23.
 //
-#include "gtest/gtest.h"
 #include "utils.h"
-
-using std::vector;
-using std::sort;
 
 namespace PermutationII {
     class Solution {
     public:
-        vector<vector<int>> permuteUnique(vector<int> &nums) {
+        std::vector<std::vector<int>> permuteUnique(std::vector<int> &nums) {
             int n = nums.size();
             visited.resize(n);
             sort(nums.begin(), nums.end());
@@ -18,7 +14,7 @@ namespace PermutationII {
             return res;
         }
 
-        void backtrack(vector<int> &nums) {
+        void backtrack(std::vector<int> &nums) {
             if (cur.size() == nums.size()) {
                 res.push_back(cur);
                 return;
@@ -48,32 +44,32 @@ namespace PermutationII {
         }
 
     private:
-        vector<bool> visited;
-        vector<int> cur;
-        vector<vector<int>> res;
+        std::vector<bool> visited;
+        std::vector<int> cur;
+        std::vector<std::vector<int>> res;
     };
 }
 
 TEST(Solution, permuteUniqueII) {
     PermutationII::Solution sln;
     // case1
-    vector<int> nums1{1, 1, 2};
-    vector<vector<int>> ans1{{1, 1, 2},
-                             {1, 2, 1},
-                             {2, 1, 1}};
+    std::vector<int> nums1{1, 1, 2};
+    std::vector<std::vector<int>> ans1{{1, 1, 2},
+                                       {1, 2, 1},
+                                       {2, 1, 1}};
 
     // case2
-    vector<int> nums2{1, 2, 3};
-    vector<vector<int>> ans2{{1, 2, 3},
-                             {1, 3, 2},
-                             {2, 1, 3},
-                             {2, 3, 1},
-                             {3, 1, 2},
-                             {3, 2, 1}};
+    std::vector<int> nums2{1, 2, 3};
+    std::vector<std::vector<int>> ans2{{1, 2, 3},
+                                       {1, 3, 2},
+                                       {2, 1, 3},
+                                       {2, 3, 1},
+                                       {3, 1, 2},
+                                       {3, 2, 1}};
 
-    vector<vector<int>> res1 = sln.permuteUnique(nums1);
+    std::vector<std::vector<int>> res1 = sln.permuteUnique(nums1);
     EXPECT_TRUE(Compare2DVector(res1, ans1));
     sln.resetMems();
-    vector<vector<int>> res2 = sln.permuteUnique(nums2);
+    std::vector<std::vector<int>> res2 = sln.permuteUnique(nums2);
     EXPECT_TRUE(Compare2DVector(res2, ans2));
 }
