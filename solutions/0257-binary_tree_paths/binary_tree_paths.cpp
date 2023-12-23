@@ -68,14 +68,21 @@ namespace BinaryTreePaths {
     };
 }
 
-TEST(Solution, binaryTreePaths) {
-    BinaryTreePaths::Solution sln;
+//TEST(Solution, binaryTreePaths) {
+//    BinaryTreePaths::Solution sln;
+//
+//    // case1
+//    std::vector<int> case1{0, null};
+//
+//}
+//
+//TEST(Solution, binaryTreePaths1) {
+//    //
+//}
 
-    // case1
-    std::vector<int> case1{0, null};
-
-}
-
-TEST(Solution, binaryTreePaths1) {
-    //
+TEST(Solution, TestBinaryTreeConstructAndPrint) {
+    GTEST_SKIP();
+    std::vector<int> nums{1, 2, 3, 4, 5, 6, 7, 8, null, 10, 11, null, 13, null, 15};
+    TreeNode *root = BuildBinaryTree(nums);
+    PrintBinaryTreeLevelOrder(root);
 }
