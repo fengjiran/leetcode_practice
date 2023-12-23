@@ -2,10 +2,11 @@
 // Created by richard on 12/23/23.
 //
 #include "gtest/gtest.h"
+#include "utils.h"
 
 using std::vector;
 using std::sort;
-using std::stable_sort;
+
 namespace PermutationII {
     class Solution {
     public:
@@ -46,23 +47,6 @@ namespace PermutationII {
             res.clear();
         }
 
-        static bool compareVector(vector<vector<int>> &nums1, vector<vector<int>> &nums2) {
-            stable_sort(nums1.begin(), nums1.end());
-            stable_sort(nums2.begin(), nums2.end());
-            if (nums1.size() != nums2.size()) {
-                return false;
-            }
-
-            for (int i = 0; i < nums1.size(); i++) {
-                bool isEqual = std::equal(nums1[i].begin(), nums1[i].end(),
-                                          nums2[i].begin(), nums2[i].end());
-                if (!isEqual) {
-                    return false;
-                }
-            }
-            return true;
-        }
-
     private:
         vector<bool> visited;
         vector<int> cur;
@@ -88,8 +72,8 @@ TEST(Solution, permuteUniqueII) {
                              {3, 2, 1}};
 
     vector<vector<int>> res1 = sln.permuteUnique(nums1);
-    EXPECT_TRUE(sln.compareVector(res1, ans1));
+    EXPECT_TRUE(Compare2DVector(res1, ans1));
     sln.resetMems();
     vector<vector<int>> res2 = sln.permuteUnique(nums2);
-    EXPECT_TRUE(sln.compareVector(res2, ans2));
+    EXPECT_TRUE(Compare2DVector(res2, ans2));
 }
