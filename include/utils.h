@@ -5,6 +5,7 @@
 #ifndef LEETCODE_PRACTICE_UTILS_H
 #define LEETCODE_PRACTICE_UTILS_H
 
+#include <queue>
 #include "gtest/gtest.h"
 
 #define null INT32_MIN
@@ -56,8 +57,32 @@ bool Compare2DString(std::vector<std::string> &str1, std::vector<std::string> &s
     return true;
 }
 
-TreeNode* BuildBinaryTree(const std::vector<int>& nums) {
-    //
+// construct binary tree from level order
+TreeNode *BuildBinaryTree(const std::vector<int> &nums) {
+    if (nums.empty()) {
+        return nullptr;
+    }
+
+    auto *root = new TreeNode(nums[0]);
+    std::queue<TreeNode *> q;
+    q.push(root);
+    int i = 1;
+    while (!q.empty() && i < nums.size()) {
+        TreeNode *cur = q.front();
+        q.pop();
+        if (nums[i] != null) {
+            cur->left = new TreeNode(nums[i]);
+            q.push(cur->left);
+        }
+        i++;
+
+        if (nums[i] != null) {
+            cur->right = new TreeNode(nums[i]);
+            q.push(cur->right);
+        }
+        i++;
+    }
+    return root;
 }
 
 #endif //LEETCODE_PRACTICE_UTILS_H
