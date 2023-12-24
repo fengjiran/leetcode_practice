@@ -3,24 +3,26 @@
 //
 #include "gtest/gtest.h"
 
-class Solution {
-public:
-    std::vector<int> twoSum(std::vector<int> &nums, int target) {
-        for (int i = 0; i < nums.size(); i++) {
-            if (value2index.find(target - nums[i]) != value2index.end()) {
-                return {i, value2index[target - nums[i]]};
+namespace TwoSum {
+    class Solution {
+    public:
+        std::vector<int> twoSum(std::vector<int> &nums, int target) {
+            for (int i = 0; i < nums.size(); i++) {
+                if (value2index.find(target - nums[i]) != value2index.end()) {
+                    return {i, value2index[target - nums[i]]};
+                }
+                value2index[nums[i]] = i;
             }
-            value2index[nums[i]] = i;
+            return {};
         }
-        return {};
-    }
 
-private:
-    std::unordered_map<int, int> value2index;
-};
+    private:
+        std::unordered_map<int, int> value2index;
+    };
+}
 
 TEST(Solution, twoSum) {
-    Solution sln;
+    TwoSum::Solution sln;
     // case1
     std::vector<int> a{2, 7, 11, 15};
     int target = 9;

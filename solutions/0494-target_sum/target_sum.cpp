@@ -3,42 +3,44 @@
 //
 #include "gtest/gtest.h"
 
-class Solution {
-public:
-    int findTargetSumWays(std::vector<int> &nums, int target) {
-        backtrack(nums, 0, target);
-        return res;
-    }
-
-    void backtrack(std::vector<int> &nums, int idx, int target) {
-        if (idx == nums.size()) {
-            if (sum == target) {
-                res++;
-            }
-            return;
+namespace TargetSum {
+    class Solution {
+    public:
+        int findTargetSumWays(std::vector<int> &nums, int target) {
+            backtrack(nums, 0, target);
+            return res;
         }
 
-        sum += nums[idx];
-        backtrack(nums, idx + 1, target);
-        sum -= nums[idx];
+        void backtrack(std::vector<int> &nums, int idx, int target) {
+            if (idx == nums.size()) {
+                if (sum == target) {
+                    res++;
+                }
+                return;
+            }
 
-        sum -= nums[idx];
-        backtrack(nums, idx + 1, target);
-        sum += nums[idx];
-    }
+            sum += nums[idx];
+            backtrack(nums, idx + 1, target);
+            sum -= nums[idx];
 
-    void resetMems() {
-        sum = 0;
-        res = 0;
-    }
+            sum -= nums[idx];
+            backtrack(nums, idx + 1, target);
+            sum += nums[idx];
+        }
 
-private:
-    int sum{0};
-    int res{0};
-};
+        void resetMems() {
+            sum = 0;
+            res = 0;
+        }
+
+    private:
+        int sum{0};
+        int res{0};
+    };
+}
 
 TEST(Solution, targetSum) {
-    Solution sln;
+    TargetSum::Solution sln;
     // case1
     std::vector<int> a1{1, 1, 1, 1, 1};
     int target1 = 3;
