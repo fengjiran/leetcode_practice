@@ -29,7 +29,7 @@ namespace AdditiveNumber {
             return false;
         }
 
-        static std::string stringAdd(std::string &s, int firstStart, int firstEnd, int secondStart, int secondEnd) {
+        static std::string stringAdd(std::string& s, int firstStart, int firstEnd, int secondStart, int secondEnd) {
             std::string third;
             int carry = 0;
             int cur;
@@ -53,7 +53,7 @@ namespace AdditiveNumber {
             return third;
         }
 
-        bool isValid(std::string &num, int secondStart, int secondEnd) {
+        bool isValid(std::string& num, int secondStart, int secondEnd) {
             size_t n = num.size();
             int firstStart = 0;
             int firstEnd = secondStart - 1;
@@ -77,7 +77,7 @@ namespace AdditiveNumber {
             return false;
         }
     };
-}
+}// namespace AdditiveNumber
 
 TEST(Solution, isAdditiveNumber) {
     AdditiveNumber::Solution sln;
@@ -89,5 +89,4 @@ TEST(Solution, isAdditiveNumber) {
     // case2
     std::string num2 = "199100199";
     EXPECT_TRUE(sln.isAdditiveNumber(num2));
-
 }
