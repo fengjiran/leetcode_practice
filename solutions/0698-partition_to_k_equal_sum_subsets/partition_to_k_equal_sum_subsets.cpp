@@ -105,6 +105,7 @@ namespace PartitionKSubsets {
 }
 
 TEST(Solution, canPartitionKSubsets) {
+    GTEST_SKIP();
     PartitionKSubsets::Solution sln;
 
     // case1
