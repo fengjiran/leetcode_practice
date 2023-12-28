@@ -63,8 +63,18 @@ TEST(Solution, surroundedRegions) {
     EXPECT_TRUE(dir.has_value());
 
     std::string case1Path = dir.value() + "/" + "board1.txt";
+    std::string expect1Path = dir.value() + "/" + "expect1.txt";
     std::optional<std::vector<std::vector<char>>> board1 = get2DCharFromFile(case1Path.c_str());
+    std::optional<std::vector<std::vector<char>>> expect1 = get2DCharFromFile(expect1Path.c_str());
     EXPECT_TRUE(board1.has_value());
+    EXPECT_TRUE(expect1.has_value());
 
     SurroundedRegions::Solution sln;
+    sln.solve(board1.value());
+    int m = board1.value().size();
+    for (int i = 0; i < m; i++) {
+        std::string s1(board1.value()[i].begin(), board1.value()[i].end());
+        std::string s2(expect1.value()[i].begin(), expect1.value()[i].end());
+        EXPECT_EQ(s1, s2);
+    }
 }
