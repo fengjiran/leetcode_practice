@@ -1,25 +1,25 @@
 //
 // Created by 赵丹 on 2023/12/24.
 //
-#include "gtest/gtest.h"
+#include "utils.h"
 
 namespace TwoSum {
-    class Solution {
-    public:
-        std::vector<int> twoSum(std::vector<int> &nums, int target) {
-            for (int i = 0; i < nums.size(); i++) {
-                if (value2index.find(target - nums[i]) != value2index.end()) {
-                    return {i, value2index[target - nums[i]]};
-                }
-                value2index[nums[i]] = i;
+class Solution {
+public:
+    std::vector<int> twoSum(std::vector<int>& nums, int target) {
+        for (int i = 0; i < nums.size(); i++) {
+            if (value2index.find(target - nums[i]) != value2index.end()) {
+                return {i, value2index[target - nums[i]]};
             }
-            return {};
+            value2index[nums[i]] = i;
         }
+        return {};
+    }
 
-    private:
-        std::unordered_map<int, int> value2index;
-    };
-}
+private:
+    std::unordered_map<int, int> value2index;
+};
+}// namespace TwoSum
 
 TEST(Solution, twoSum) {
     TwoSum::Solution sln;

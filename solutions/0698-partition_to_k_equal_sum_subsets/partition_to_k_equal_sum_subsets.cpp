@@ -4,105 +4,105 @@
 #include "utils.h"
 
 namespace PartitionKSubsets {
-    class Solution {
-    public:
-        bool canPartitionKSubsets(std::vector<int> &nums, int k) {
-            if (k > nums.size()) {
-                return false;
-            }
-
-            int sum = 0;
-            for (int v: nums) {
-                sum += v;
-            }
-
-            if (sum % k != 0) {
-                return false;
-            }
-
-            int target = sum / k;
-            std::vector<int> buckets(k);
-            backtrack(nums, 0, buckets, target);
-            return canPartition;
+class Solution {
+public:
+    bool canPartitionKSubsets(std::vector<int>& nums, int k) {
+        if (k > nums.size()) {
+            return false;
         }
 
-        bool canPartitionKSubsets1(std::vector<int> &nums, int k) {
-            if (k > nums.size()) {
-                return false;
-            }
-
-            int sum = 0;
-            for (int v: nums) {
-                sum += v;
-            }
-
-            if (sum % k != 0) {
-                return false;
-            }
-
-            int target = sum / k;
-            used.resize(nums.size());
-            backtrack1(nums, 0, 0, k, target);
-            return canPartition;
+        int sum = 0;
+        for (int v: nums) {
+            sum += v;
         }
 
-        // from number viewpoint
-        // do not pass all test case because of time complexity
-        void backtrack(std::vector<int> &nums, int idx, std::vector<int> &buckets, int target) {
-            if (idx == nums.size()) {
-                for (int v: buckets) {
-                    if (v != target) {
-                        canPartition = false;
-                        return;
-                    }
-                }
-                canPartition = true;
-            } else {
-                for (int i = 0; i < buckets.size(); i++) {
-                    if (buckets[i] + nums[idx] > target) {
-                        continue;
-                    }
-                    buckets[i] += nums[idx];
-                    backtrack(nums, idx + 1, buckets, target);
-                    buckets[i] -= nums[idx];
+        if (sum % k != 0) {
+            return false;
+        }
+
+        int target = sum / k;
+        std::vector<int> buckets(k);
+        backtrack(nums, 0, buckets, target);
+        return canPartition;
+    }
+
+    bool canPartitionKSubsets1(std::vector<int>& nums, int k) {
+        if (k > nums.size()) {
+            return false;
+        }
+
+        int sum = 0;
+        for (int v: nums) {
+            sum += v;
+        }
+
+        if (sum % k != 0) {
+            return false;
+        }
+
+        int target = sum / k;
+        used.resize(nums.size());
+        backtrack1(nums, 0, 0, k, target);
+        return canPartition;
+    }
+
+    // from number viewpoint
+    // do not pass all test case because of time complexity
+    void backtrack(std::vector<int>& nums, int idx, std::vector<int>& buckets, int target) {
+        if (idx == nums.size()) {
+            for (int v: buckets) {
+                if (v != target) {
+                    canPartition = false;
+                    return;
                 }
             }
-        }
-
-        // from bucket viewpoint
-        void backtrack1(std::vector<int> &nums, int start, int bucket, int k, int target) {
-            if (k == 0) {
-                canPartition = true;
-                return;
-            }
-
-            if (bucket == target) {
-                backtrack1(nums, 0, 0, k - 1, target);
-            }
-
-            for (int i = start; i < nums.size(); i++) {
-                if (used[i] || bucket + nums[i] > target) {
+            canPartition = true;
+        } else {
+            for (int i = 0; i < buckets.size(); i++) {
+                if (buckets[i] + nums[idx] > target) {
                     continue;
                 }
-
-                used[i] = true;
-                bucket += nums[i];
-                backtrack1(nums, i + 1, bucket, k, target);
-                used[i] = false;
-                bucket -= nums[i];
+                buckets[i] += nums[idx];
+                backtrack(nums, idx + 1, buckets, target);
+                buckets[i] -= nums[idx];
             }
         }
+    }
 
-        void resetMems() {
-            canPartition = false;
-            used.clear();
+    // from bucket viewpoint
+    void backtrack1(std::vector<int>& nums, int start, int bucket, int k, int target) {
+        if (k == 0) {
+            canPartition = true;
+            return;
         }
 
-    private:
-        bool canPartition{false};
-        std::vector<bool> used;
-    };
-}
+        if (bucket == target) {
+            backtrack1(nums, 0, 0, k - 1, target);
+        }
+
+        for (int i = start; i < nums.size(); i++) {
+            if (used[i] || bucket + nums[i] > target) {
+                continue;
+            }
+
+            used[i] = true;
+            bucket += nums[i];
+            backtrack1(nums, i + 1, bucket, k, target);
+            used[i] = false;
+            bucket -= nums[i];
+        }
+    }
+
+    void resetMems() {
+        canPartition = false;
+        used.clear();
+    }
+
+private:
+    bool canPartition{false};
+    std::vector<bool> used;
+};
+}// namespace PartitionKSubsets
 
 TEST(Solution, canPartitionKSubsets) {
     GTEST_SKIP();

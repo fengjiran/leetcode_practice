@@ -1,43 +1,43 @@
 //
 // Created by 赵丹 on 2023/12/24.
 //
-#include "gtest/gtest.h"
+#include "utils.h"
 
 namespace TargetSum {
-    class Solution {
-    public:
-        int findTargetSumWays(std::vector<int> &nums, int target) {
-            backtrack(nums, 0, target);
-            return res;
-        }
+class Solution {
+public:
+    int findTargetSumWays(std::vector<int>& nums, int target) {
+        backtrack(nums, 0, target);
+        return res;
+    }
 
-        void backtrack(std::vector<int> &nums, int idx, int target) {
-            if (idx == nums.size()) {
-                if (sum == target) {
-                    res++;
-                }
-                return;
+    void backtrack(std::vector<int>& nums, int idx, int target) {
+        if (idx == nums.size()) {
+            if (sum == target) {
+                res++;
             }
-
-            sum += nums[idx];
-            backtrack(nums, idx + 1, target);
-            sum -= nums[idx];
-
-            sum -= nums[idx];
-            backtrack(nums, idx + 1, target);
-            sum += nums[idx];
+            return;
         }
 
-        void resetMems() {
-            sum = 0;
-            res = 0;
-        }
+        sum += nums[idx];
+        backtrack(nums, idx + 1, target);
+        sum -= nums[idx];
 
-    private:
-        int sum{0};
-        int res{0};
-    };
-}
+        sum -= nums[idx];
+        backtrack(nums, idx + 1, target);
+        sum += nums[idx];
+    }
+
+    void resetMems() {
+        sum = 0;
+        res = 0;
+    }
+
+private:
+    int sum{0};
+    int res{0};
+};
+}// namespace TargetSum
 
 TEST(Solution, targetSum) {
     TargetSum::Solution sln;

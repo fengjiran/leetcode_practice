@@ -4,51 +4,51 @@
 #include "utils.h"
 
 namespace PermutationII {
-    class Solution {
-    public:
-        std::vector<std::vector<int>> permuteUnique(std::vector<int> &nums) {
-            int n = nums.size();
-            visited.resize(n);
-            sort(nums.begin(), nums.end());
+class Solution {
+public:
+    std::vector<std::vector<int>> permuteUnique(std::vector<int>& nums) {
+        int n = nums.size();
+        visited.resize(n);
+        sort(nums.begin(), nums.end());
+        backtrack(nums);
+        return res;
+    }
+
+    void backtrack(std::vector<int>& nums) {
+        if (cur.size() == nums.size()) {
+            res.push_back(cur);
+            return;
+        }
+
+        for (int i = 0; i < nums.size(); i++) {
+            if (visited[i]) {
+                continue;
+            }
+
+            if (i > 0 && nums[i] == nums[i - 1] && !visited[i - 1]) {
+                continue;
+            }
+
+            cur.push_back(nums[i]);
+            visited[i] = true;
             backtrack(nums);
-            return res;
+            cur.pop_back();
+            visited[i] = false;
         }
+    }
 
-        void backtrack(std::vector<int> &nums) {
-            if (cur.size() == nums.size()) {
-                res.push_back(cur);
-                return;
-            }
+    void resetMems() {
+        visited.clear();
+        cur.clear();
+        res.clear();
+    }
 
-            for (int i = 0; i < nums.size(); i++) {
-                if (visited[i]) {
-                    continue;
-                }
-
-                if (i > 0 && nums[i] == nums[i - 1] && !visited[i - 1]) {
-                    continue;
-                }
-
-                cur.push_back(nums[i]);
-                visited[i] = true;
-                backtrack(nums);
-                cur.pop_back();
-                visited[i] = false;
-            }
-        }
-
-        void resetMems() {
-            visited.clear();
-            cur.clear();
-            res.clear();
-        }
-
-    private:
-        std::vector<bool> visited;
-        std::vector<int> cur;
-        std::vector<std::vector<int>> res;
-    };
-}
+private:
+    std::vector<bool> visited;
+    std::vector<int> cur;
+    std::vector<std::vector<int>> res;
+};
+}// namespace PermutationII
 
 TEST(Solution, permuteUniqueII) {
     PermutationII::Solution sln;

@@ -4,45 +4,45 @@
 #include "utils.h"
 
 namespace LetterCasePermutation {
-    class Solution {
-    public:
-        std::vector<std::string> letterCasePermutation(std::string s) {
-            backtrack(s, 0);
-            return res;
+class Solution {
+public:
+    std::vector<std::string> letterCasePermutation(std::string s) {
+        backtrack(s, 0);
+        return res;
+    }
+
+    void backtrack(std::string& s, int start) {
+        if (start == s.size()) {
+            res.push_back(track);
+            return;
         }
 
-        void backtrack(std::string &s, int start) {
-            if (start == s.size()) {
-                res.push_back(track);
-                return;
-            }
+        char c = s[start];
+        if (!std::isalpha(c)) {
+            track += c;
+            backtrack(s, start + 1);
+            track.pop_back();
+        } else {
+            track += (char) std::toupper(c);
+            backtrack(s, start + 1);
+            track.pop_back();
 
-            char c = s[start];
-            if (!std::isalpha(c)) {
-                track += c;
-                backtrack(s, start + 1);
-                track.pop_back();
-            } else {
-                track += (char) std::toupper(c);
-                backtrack(s, start + 1);
-                track.pop_back();
-
-                track += (char) std::tolower(c);
-                backtrack(s, start + 1);
-                track.pop_back();
-            }
+            track += (char) std::tolower(c);
+            backtrack(s, start + 1);
+            track.pop_back();
         }
+    }
 
-        void resetMems() {
-            track.clear();
-            res.clear();
-        }
+    void resetMems() {
+        track.clear();
+        res.clear();
+    }
 
-    private:
-        std::string track;
-        std::vector<std::string> res;
-    };
-}
+private:
+    std::string track;
+    std::vector<std::string> res;
+};
+}// namespace LetterCasePermutation
 
 TEST(Solution, letterCasePermutation) {
     LetterCasePermutation::Solution sln;

@@ -4,52 +4,52 @@
 #include "utils.h"
 
 namespace CombinationSumIII {
-    class Solution {
-    public:
-        std::vector<std::vector<int>> combinationSum3(int k, int n) {
-            backtrack(k, n, 1);
-            return res;
+class Solution {
+public:
+    std::vector<std::vector<int>> combinationSum3(int k, int n) {
+        backtrack(k, n, 1);
+        return res;
+    }
+
+    void backtrack(int k, int n, int start) {
+        if (sum == n && track.size() == k) {
+            res.push_back(track);
+            return;
         }
 
-        void backtrack(int k, int n, int start) {
-            if (sum == n && track.size() == k) {
-                res.push_back(track);
-                return;
-            }
-
-            if (track.size() > k) {
-                return;
-            }
-
-            for (int i = start; i <= 9; i++) {
-                if (std::find(track.begin(), track.end(), i) != track.end()) {
-                    continue;
-                }
-
-                if (sum + i > n) {
-                    continue;
-                }
-
-                track.push_back(i);
-                sum += i;
-                backtrack(k, n, i + 1);
-                track.pop_back();
-                sum -= i;
-            }
+        if (track.size() > k) {
+            return;
         }
 
-        void resetMems() {
-            sum = 0;
-            track.clear();
-            res.clear();
-        }
+        for (int i = start; i <= 9; i++) {
+            if (std::find(track.begin(), track.end(), i) != track.end()) {
+                continue;
+            }
 
-    private:
-        int sum{0};
-        std::vector<int> track;
-        std::vector<std::vector<int>> res;
-    };
-}
+            if (sum + i > n) {
+                continue;
+            }
+
+            track.push_back(i);
+            sum += i;
+            backtrack(k, n, i + 1);
+            track.pop_back();
+            sum -= i;
+        }
+    }
+
+    void resetMems() {
+        sum = 0;
+        track.clear();
+        res.clear();
+    }
+
+private:
+    int sum{0};
+    std::vector<int> track;
+    std::vector<std::vector<int>> res;
+};
+}// namespace CombinationSumIII
 
 TEST(Solution, combinationSum3) {
     CombinationSumIII::Solution sln;

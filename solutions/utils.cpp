@@ -3,7 +3,7 @@
 //
 #include "utils.h"
 
-bool Compare2DVector(std::vector<std::vector<int>> &nums1, std::vector<std::vector<int>> &nums2) {
+bool Compare2DVector(std::vector<std::vector<int>>& nums1, std::vector<std::vector<int>>& nums2) {
     if (nums1.size() != nums2.size()) {
         return false;
     }
@@ -21,7 +21,7 @@ bool Compare2DVector(std::vector<std::vector<int>> &nums1, std::vector<std::vect
     return true;
 }
 
-bool Compare2DString(std::vector<std::string> &str1, std::vector<std::string> &str2) {
+bool Compare2DString(std::vector<std::string>& str1, std::vector<std::string>& str2) {
     if (str1.size() != str2.size()) {
         return false;
     }
@@ -39,17 +39,17 @@ bool Compare2DString(std::vector<std::string> &str1, std::vector<std::string> &s
 
 // construct binary tree from level order
 // ref:https://developer.aliyun.com/article/1217826
-TreeNode *BuildBinaryTree(const std::vector<int> &nums) {
+TreeNode* BuildBinaryTree(const std::vector<int>& nums) {
     if (nums.empty()) {
         return nullptr;
     }
 
-    auto *root = new TreeNode(nums[0]);
-    std::queue<TreeNode *> q;
+    auto* root = new TreeNode(nums[0]);
+    std::queue<TreeNode*> q;
     q.push(root);
     int i = 1;
     while (!q.empty() && i < nums.size()) {
-        TreeNode *cur = q.front();
+        TreeNode* cur = q.front();
         q.pop();
         if (i < nums.size() && nums[i] != null) {
             cur->left = new TreeNode(nums[i]);
@@ -66,17 +66,17 @@ TreeNode *BuildBinaryTree(const std::vector<int> &nums) {
     return root;
 }
 
-void PrintBinaryTreeLevelOrder(TreeNode *root) {
+void PrintBinaryTreeLevelOrder(TreeNode* root) {
     if (!root) {
         return;
     }
 
-    std::queue<TreeNode *> q;
+    std::queue<TreeNode*> q;
     q.push(root);
     while (!q.empty()) {
         size_t sz = q.size();
         for (int i = 0; i < sz; i++) {
-            TreeNode *cur = q.front();
+            TreeNode* cur = q.front();
             q.pop();
             std::cout << cur->val << " ";
             if (cur->left) {
