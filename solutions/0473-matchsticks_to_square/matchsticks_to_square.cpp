@@ -23,50 +23,33 @@ public:
 
         int side_len = sum / 4;
         std::sort(matchsticks.begin(), matchsticks.end());
-
-        used.resize(n);
         sides.resize(4);
-        backtrack(matchsticks, side_len, 0);
-        return found;
+        return backtrack(matchsticks, 0, side_len);
     }
 
-    void backtrack(std::vector<int>& matchsticks, int side_len, int side_id) {
-        if (side_id == 4) {
-            for (int v: sides) {
-                if (v != side_len) {
-                    found = false;
-                    return;
-                }
-            }
-            found = true;
-            return;
+    bool backtrack(std::vector<int>& matchsticks, int idx, int target) {
+        if (idx == matchsticks.size()) {
+            return std::all_of(sides.begin(), sides.end(), [=](int i) { return i == target; });
         }
 
-        for (int i = 0; i < matchsticks.size(); i++) {
-            if (used[i] || sides[side_id] + matchsticks[i] > side_len) {
+        for (int i = 0; i < 4; i++) {
+            if (sides[i] + matchsticks[idx] > target || (i > 0 && sides[i] == sides[i - 1])) {
                 continue;
             }
-
-            if (sides[side_id] + matchsticks[i] == side_len) {
-                side_id += 1;
+            sides[i] += matchsticks[idx];
+            if (backtrack(matchsticks, idx + 1, target)) {
+                return true;
             }
-            used[i] = true;
-            sides[side_id] += matchsticks[i];
-            backtrack(matchsticks, side_len, side_id);
-            used[i] = false;
-            sides[side_id] -= matchsticks[i];
+            sides[i] -= matchsticks[idx];
         }
+        return false;
     }
 
     void resetMems() {
-        found = false;
-        used.clear();
         sides.clear();
     }
 
 private:
-    bool found{false};
-    std::vector<bool> used;
     std::vector<int> sides;
 };
 }// namespace MatchsticksToSquare
@@ -80,6 +63,14 @@ TEST(Solution, makesquare) {
     sln.resetMems();
 
     // case2
-//    std::vector<int> nums2{3, 3, 3, 3, 4};
-//    EXPECT_FALSE(sln.makesquare(nums2));
+    std::vector<int> nums2{3, 3, 3, 3, 4};
+    EXPECT_FALSE(sln.makesquare(nums2));
+
+    // case3
+    std::vector<int> nums3{5, 5, 5, 5, 4, 4, 4, 4, 3, 3, 3, 3};
+    EXPECT_TRUE(sln.makesquare(nums3));
+
+    // case4
+    std::vector<int> nums4{6122053, 1031956, 460065, 3996684, 3891947, 1839190, 6127621, 8855952, 8835594, 3425930, 4189081, 7596722, 876208, 7952011, 9676846};
+    EXPECT_FALSE(sln.makesquare(nums4));
 }
