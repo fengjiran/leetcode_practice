@@ -7,6 +7,8 @@
 
 #include "gtest/gtest.h"
 #include <queue>
+#include <set>
+#include <unordered_set>
 
 #define null INT32_MIN
 
