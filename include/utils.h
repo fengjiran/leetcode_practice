@@ -27,6 +27,8 @@ bool Compare2DVector(std::vector<std::vector<int>>& nums1, std::vector<std::vect
 
 bool Compare2DString(std::vector<std::string>& str1, std::vector<std::string>& str2);
 
+bool isPalindrome(const std::string& s, int left, int right);
+
 // construct binary tree from level order
 // ref:https://developer.aliyun.com/article/1217826
 TreeNode* BuildBinaryTree(const std::vector<int>& nums);

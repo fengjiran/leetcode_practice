@@ -19,20 +19,10 @@ public:
         for (int i = 1; i <= n - pos; i++) {
             if (isPalindrome(s, pos, pos + i - 1)) {
                 track.push_back(s.substr(pos, i));
-                backtrack(s, pos + 1);
+                backtrack(s, pos + i);
                 track.pop_back();
             }
         }
-    }
-
-    static bool isPalindrome(const std::string& s, int left, int right) {
-        int n = (right - left + 1) / 2;
-        for (int i = left; i < left + n; i++) {
-            if (s[i] != s[right + left - i]) {
-                return false;
-            }
-        }
-        return true;
     }
 
     std::vector<std::string> track;
@@ -45,7 +35,13 @@ TEST(Solution, palindromePartition) {
 
     // case1
     std::string s1 = "aab";
+    std::vector<std::vector<std::string>> expect1 = {
+            {"a", "a", "b"},
+            {"aa", "b"}};
 
-    // case2
-    std::string s2 = "a";
+    std::vector<std::vector<std::string>> res1 = sln.partition(s1);
+    EXPECT_EQ(res1.size(), expect1.size());
+    for (int i = 0; i < res1.size(); i++) {
+        EXPECT_TRUE(Compare2DString(res1[i], expect1[i]));
+    }
 }
