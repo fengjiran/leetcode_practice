@@ -83,7 +83,6 @@ public:
 }// namespace NumberOfIslands
 
 TEST(Solution, numIslands) {
-    NumberOfIslands::Solution sln;
     std::optional<std::string> dir = getFileDir(__FILE__);
     EXPECT_TRUE(dir.has_value());
 
@@ -93,6 +92,8 @@ TEST(Solution, numIslands) {
     std::optional<std::vector<std::vector<char>>> grid2 = get2DCharFromFile(case2Path.c_str());
     EXPECT_TRUE(grid1.has_value());
     EXPECT_TRUE(grid2.has_value());
+
+    NumberOfIslands::Solution sln;
 
     // case1
     auto grid11 = grid1;
