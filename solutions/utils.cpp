@@ -100,3 +100,38 @@ void PrintBinaryTreeLevelOrder(TreeNode* root) {
         std::cout << std::endl;
     }
 }
+
+std::optional<std::string> getFileDir(const std::string& filePath) {
+    size_t lastSlashIdx = filePath.rfind('/');
+    if (lastSlashIdx != std::string::npos) {
+        return std::make_optional<std::string>(filePath.substr(0, lastSlashIdx));
+        //        return filePath.substr(0, lastSlashIdx);
+    }
+    return std::nullopt;
+}
+
+std::optional<std::vector<std::vector<char>>> get2DCharFromFile(const char* file_path) {
+    std::ifstream fin;
+    fin.open(file_path, std::ios::in);
+    if (!fin.is_open()) {
+        std::cout << "Can not open the file: " << file_path << std::endl;
+        return std::nullopt;
+    }
+
+    std::string buff;
+    std::vector<std::vector<char>> res;
+    while (std::getline(fin, buff)) {
+        if (buff.empty()) {
+            continue;
+        }
+        std::vector<char> tmp;
+        for (char c: buff) {
+            if (std::isalnum(c)) {
+                tmp.push_back(c);
+            }
+        }
+        res.push_back(tmp);
+    }
+    fin.close();
+    return std::make_optional<std::vector<std::vector<char>>>(res);
+}

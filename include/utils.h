@@ -6,6 +6,8 @@
 #define LEETCODE_PRACTICE_UTILS_H
 
 #include "gtest/gtest.h"
+//#include <filesystem>
+#include <fstream>
 #include <queue>
 #include <set>
 #include <unordered_set>
@@ -36,5 +38,9 @@ bool isPalindrome(const std::string& s, int left, int right);
 TreeNode* BuildBinaryTree(const std::vector<int>& nums);
 
 void PrintBinaryTreeLevelOrder(TreeNode* root);
+
+std::optional<std::string> getFileDir(const std::string& filePath);
+
+std::optional<std::vector<std::vector<char>>> get2DCharFromFile(const char* file_path);
 
 #endif//LEETCODE_PRACTICE_UTILS_H

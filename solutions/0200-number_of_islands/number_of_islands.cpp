@@ -82,38 +82,25 @@ public:
 };
 }// namespace NumberOfIslands
 
-TEST(Solution, numIslandsDFS) {
+TEST(Solution, numIslands) {
     NumberOfIslands::Solution sln;
+    std::optional<std::string> dir = getFileDir(__FILE__);
+    EXPECT_TRUE(dir.has_value());
+
+    std::string case1Path = dir.value() + "/" + "grid1.txt";
+    std::string case2Path = dir.value() + "/" + "grid2.txt";
+    std::optional<std::vector<std::vector<char>>> grid1 = get2DCharFromFile(case1Path.c_str());
+    std::optional<std::vector<std::vector<char>>> grid2 = get2DCharFromFile(case2Path.c_str());
+    EXPECT_TRUE(grid1.has_value());
+    EXPECT_TRUE(grid2.has_value());
 
     // case1
-    std::vector<std::vector<char>> grid1 = {{'1', '1', '1', '1', '0'},
-                                            {'1', '1', '0', '1', '0'},
-                                            {'1', '1', '0', '0', '0'},
-                                            {'0', '0', '0', '0', '0'}};
-    EXPECT_EQ(sln.numIslandsDFS(grid1), 1);
+    auto grid11 = grid1;
+    EXPECT_EQ(sln.numIslandsBFS(grid1.value()), 1);
+    EXPECT_EQ(sln.numIslandsDFS(grid11.value()), 1);
 
     // case2
-    std::vector<std::vector<char>> grid2 = {{'1', '1', '0', '0', '0'},
-                                            {'1', '1', '0', '0', '0'},
-                                            {'0', '0', '1', '0', '0'},
-                                            {'0', '0', '0', '1', '1'}};
-    EXPECT_EQ(sln.numIslandsDFS(grid2), 3);
-}
-
-TEST(Solution, numIslandsBFS) {
-    NumberOfIslands::Solution sln;
-
-    // case1
-    std::vector<std::vector<char>> grid1 = {{'1', '1', '1', '1', '0'},
-                                            {'1', '1', '0', '1', '0'},
-                                            {'1', '1', '0', '0', '0'},
-                                            {'0', '0', '0', '0', '0'}};
-    EXPECT_EQ(sln.numIslandsBFS(grid1), 1);
-
-    // case2
-    std::vector<std::vector<char>> grid2 = {{'1', '1', '0', '0', '0'},
-                                            {'1', '1', '0', '0', '0'},
-                                            {'0', '0', '1', '0', '0'},
-                                            {'0', '0', '0', '1', '1'}};
-    EXPECT_EQ(sln.numIslandsBFS(grid2), 3);
+    auto grid21 = grid2;
+    EXPECT_EQ(sln.numIslandsBFS(grid2.value()), 3);
+    EXPECT_EQ(sln.numIslandsDFS(grid21.value()), 3);
 }
