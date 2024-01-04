@@ -95,16 +95,19 @@ TEST(Solution, lengthOfLIS) {
     std::vector<int> nums1{10, 9, 2, 5, 3, 7, 101, 18};
     EXPECT_EQ(sln.lengthOfLIS(nums1), 4);
     EXPECT_EQ(sln.lengthOfLIS1(nums1), 4);
+    EXPECT_EQ(sln.lengthOfLIS2(nums1), 4);
     sln.resetMems();
 
     // case2
     std::vector<int> nums2{0, 1, 0, 3, 2, 3};
     EXPECT_EQ(sln.lengthOfLIS(nums2), 4);
     EXPECT_EQ(sln.lengthOfLIS1(nums2), 4);
+    EXPECT_EQ(sln.lengthOfLIS2(nums2), 4);
     sln.resetMems();
 
     // case3
     std::vector<int> nums3{7, 7, 7, 7, 7, 7, 7};
     EXPECT_EQ(sln.lengthOfLIS(nums3), 1);
     EXPECT_EQ(sln.lengthOfLIS1(nums3), 1);
+    EXPECT_EQ(sln.lengthOfLIS2(nums3), 1);
 }
