@@ -3,7 +3,7 @@
 //
 #include "utils.h"
 
-namespace {
+namespace ClimbStair {
 class Solution {
 public:
     int climbStairs(int n) {
@@ -28,7 +28,7 @@ public:
 }// namespace
 
 TEST(Solution, climbStairs) {
-    ::Solution sln;
+    ClimbStair::Solution sln;
 
     // case1
     EXPECT_EQ(sln.climbStairs(2), 2);
