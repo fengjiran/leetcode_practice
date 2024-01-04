@@ -52,6 +52,34 @@ public:
         return memo[i];
     }
 
+    // use binary search algo
+    int lengthOfLIS2(std::vector<int>& nums) {
+        int n = nums.size();
+        std::vector<int> top(n);
+        int piles = 0;
+        for (int i = 0; i < n; i++) {
+            int poker = nums[i];
+            int left = 0;
+            int right = piles;
+            while (left < right) {
+                int mid = left + (right - left) / 2;
+                if (top[mid] > poker) {
+                    right = mid;
+                } else if (top[mid] < poker) {
+                    left = mid + 1;
+                } else if (top[mid] == poker) {
+                    right = mid;
+                }
+            }
+
+            if (left == piles) {
+                piles++;
+            }
+            top[left] = poker;
+        }
+        return piles;
+    }
+
     void resetMems() {
         memo.clear();
     }
