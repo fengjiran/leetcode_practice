@@ -55,12 +55,12 @@ public:
     }
 
     void BFS(std::vector<std::vector<char>>& grid, int i, int j) {
-        int m = grid.size();
-        int n = grid[0].size();
+        size_t m = grid.size();
+        size_t n = grid[0].size();
         std::queue<std::pair<int, int>> q;
         q.emplace(i, j);
         while (!q.empty()) {
-            int sz = q.size();
+            size_t sz = q.size();
             for (int p = 0; p < sz; p++) {
                 std::pair<int, int> cur = q.front();
                 q.pop();
