@@ -8,8 +8,8 @@ class Solution {
 public:
     // use recursion
     int minDistance(std::string& word1, std::string& word2) {
-        int m = word1.size();
-        int n = word2.size();
+        int m = (int) word1.size();
+        int n = (int) word2.size();
         std::vector<std::vector<int>> memo(m, std::vector<int>(n, -1));
         return dp(word1, m - 1, word2, n - 1, memo);
     }
