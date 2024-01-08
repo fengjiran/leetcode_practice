@@ -54,6 +54,11 @@ public:
         return memo[i][j];
     }
 
+    void resetMems() {
+        memo.clear();
+    }
+
+
     std::vector<std::vector<int>> memo;
 };
 }// namespace RegexMatch
@@ -65,11 +70,13 @@ TEST(Solution, isMatch) {
     std::string s1 = "aa";
     std::string p1 = "a";
     EXPECT_FALSE(sln.isMatch(s1, p1));
+    sln.resetMems();
 
     // case2
     std::string s2 = "aa";
     std::string p2 = "a*";
     EXPECT_TRUE(sln.isMatch(s2, p2));
+    sln.resetMems();
 
     // case3
     std::string s3 = "ab";
