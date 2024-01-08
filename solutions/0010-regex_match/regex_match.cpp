@@ -13,7 +13,7 @@ public:
         return dp(s, 0, p, 0);
     }
 
-    bool dp(std::string& s, int i, std::string& p, int j) {
+    bool dp(const std::string& s, int i, const std::string& p, int j) {
         int m = static_cast<int>(s.length());
         int n = static_cast<int>(p.length());
         if (j == n) {
