@@ -36,6 +36,32 @@ public:
 
         return dp[n][m];
     }
+
+    bool canPartition1(std::vector<int>& nums) {
+        int sum = 0;
+        for (int val: nums) {
+            sum += val;
+        }
+
+        if (sum % 2 == 1) {
+            return false;
+        }
+
+        int m = sum / 2;
+
+        int n = static_cast<int>(nums.size());
+        std::vector<bool> dp(m + 1);
+        dp[0] = true;
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = m; j >= 0; j--) {
+                if (j >= nums[i - 1]) {
+                    dp[j] = dp[j] || dp[j - nums[i - 1]];
+                }
+            }
+        }
+        return dp[m];
+    }
 };
 }// namespace EqualSumSubsetPartition
 
@@ -45,8 +71,9 @@ TEST(Solution, canPartition) {
     // case1
     std::vector<int> nums1{1, 5, 11, 5};
     EXPECT_TRUE(sln.canPartition(nums1));
-
+    EXPECT_TRUE(sln.canPartition1(nums1));
     // case2
     std::vector<int> nums2{1, 2, 3, 5};
     EXPECT_FALSE(sln.canPartition(nums2));
+    EXPECT_FALSE(sln.canPartition1(nums2));
 }
