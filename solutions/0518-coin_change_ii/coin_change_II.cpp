@@ -24,6 +24,22 @@ public:
         }
         return dp[n][amount];
     }
+
+    // use space compression skill
+    int change1(int amount, std::vector<int>& coins) {
+        int n = coins.size();
+        std::vector<int> dp(amount + 1);
+        dp[0] = 1;
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= amount; j++) {
+                if (j >= coins[i-1]){
+                    dp[j] = dp[j] + dp[j - coins[i - 1]];
+                }
+            }
+        }
+        return dp[amount];
+    }
 };
 }// namespace CoinChangeII
 
@@ -33,12 +49,15 @@ TEST(Solution, change) {
     // case1
     std::vector<int> nums1{1, 2, 5};
     EXPECT_EQ(sln.change(5, nums1), 4);
+    EXPECT_EQ(sln.change1(5, nums1), 4);
 
     // case2
     std::vector<int> nums2{2};
     EXPECT_EQ(sln.change(3, nums2), 0);
+    EXPECT_EQ(sln.change1(3, nums2), 0);
 
     // case3
     std::vector<int> nums3{10};
     EXPECT_EQ(sln.change(10, nums3), 1);
+    EXPECT_EQ(sln.change1(10, nums3), 1);
 }
