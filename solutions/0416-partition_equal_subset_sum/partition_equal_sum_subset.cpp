@@ -7,6 +7,34 @@ namespace EqualSumSubsetPartition {
 class Solution {
 public:
     bool canPartition(std::vector<int>& nums) {
+        int sum = 0;
+        for (int val: nums) {
+            sum += val;
+        }
+
+        if (sum % 2 == 1) {
+            return false;
+        }
+
+        int m = sum / 2;
+
+        int n = static_cast<int>(nums.size());
+        std::vector<std::vector<bool>> dp(n + 1, std::vector<bool>(m + 1));
+        for (int i = 0; i < n; i++) {
+            dp[i][0] = true;
+        }
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+                if (j < nums[i - 1]) {
+                    dp[i][j] = dp[i - 1][j];
+                } else {
+                    dp[i][j] = dp[i - 1][j] || dp[i - 1][j - nums[i - 1]];
+                }
+            }
+        }
+
+        return dp[n][m];
     }
 };
 }// namespace EqualSumSubsetPartition
