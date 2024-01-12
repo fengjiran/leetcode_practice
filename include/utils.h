@@ -11,6 +11,7 @@
 #include <queue>
 #include <set>
 #include <unordered_set>
+#include <cmath>
 
 #define null INT32_MIN
 
