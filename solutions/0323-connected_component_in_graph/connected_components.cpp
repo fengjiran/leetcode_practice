@@ -16,7 +16,7 @@ public:
 };
 }// namespace ConnectedComponent
 
-TEST(Solutionn, countComponents) {
+TEST(Solution, countComponents) {
     ConnectedComponent::Solution sln;
 
     // case1
