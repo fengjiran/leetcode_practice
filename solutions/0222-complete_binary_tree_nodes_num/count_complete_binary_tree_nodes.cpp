@@ -58,6 +58,25 @@ public:
         }
         return nums;
     }
+
+    int countNodesWithDFS(TreeNode* root) {
+        if (!root) {
+            return 0;
+        }
+
+        int nums = 0;
+        traverse(root, nums);
+        return nums;
+    }
+
+    void traverse(TreeNode* root, int& nums) {
+        if (!root) {
+            return;
+        }
+        nums++;
+        traverse(root->left, nums);
+        traverse(root->right, nums);
+    }
 };
 }// namespace CompleteBinaryTreeNodes
 
@@ -69,16 +88,19 @@ TEST(Solution, countNodes) {
     TreeNode* root1 = BuildBinaryTree(nums1);
     EXPECT_EQ(sln.countNodes(root1), 6);
     EXPECT_EQ(sln.countNodesWithBFS(root1), 6);
+    EXPECT_EQ(sln.countNodesWithDFS(root1), 6);
 
     // case2
     std::vector<int> nums2;
     TreeNode* root2 = BuildBinaryTree(nums2);
     EXPECT_EQ(sln.countNodes(root2), 0);
     EXPECT_EQ(sln.countNodesWithBFS(root2), 0);
+    EXPECT_EQ(sln.countNodesWithDFS(root2), 0);
 
     // case3
     std::vector<int> nums3{1};
     TreeNode* root3 = BuildBinaryTree(nums3);
     EXPECT_EQ(sln.countNodes(root3), 1);
     EXPECT_EQ(sln.countNodesWithBFS(root3), 1);
+    EXPECT_EQ(sln.countNodesWithDFS(root3), 1);
 }
