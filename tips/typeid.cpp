@@ -10,6 +10,12 @@ class Base {
 
 class Derived : public Base {};
 
+struct A {
+    bool a;
+    float b;
+    double c;
+};
+
 void typeidTest() {
     Base b;
     Base* pb = nullptr;
@@ -19,7 +25,8 @@ void typeidTest() {
               << "unsigned type: " << typeid(unsigned).name() << std::endl
               << "long type: " << typeid(long).name() << std::endl
               << "unsigned long type: " << typeid(unsigned long).name() << std::endl
-              << "char type: " << typeid(char).name() << std::endl;
+              << "char type: " << typeid(char).name() << std::endl
+              << sizeof(A) << std::endl;
 }
 
 class TypeidTest {
