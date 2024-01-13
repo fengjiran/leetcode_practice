@@ -8,7 +8,7 @@ class Solution {
 public:
     // 中心扩散法
     std::string longestPalindrome(std::string& s) {
-        int n = (int)s.size();
+        int n = (int) s.size();
         int maxLen = 1;
         int begin = 0;
         for (int i = 0; i < 2 * n - 1; i++) {
@@ -30,7 +30,7 @@ public:
 
     // 动态规划
     std::string longestPalindrome1(std::string& s) {
-        int n = (int)s.size();
+        int n = (int) s.size();
         int maxLen = 1;
         int begin = 0;
         std::vector<std::vector<bool>> dp(n, std::vector<bool>(n));
@@ -55,7 +55,7 @@ public:
         return s.substr(begin, maxLen);
     }
 };
-}
+}// namespace LongestPalindromicSubstr
 
 TEST(Solution, longestPalindrome) {
     LongestPalindromicSubstr::Solution sln;
