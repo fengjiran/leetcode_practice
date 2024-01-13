@@ -32,6 +32,31 @@ public:
         }
         return res;
     }
+
+    // dp table space compression
+    int minimumTotal1(std::vector<std::vector<int>>& triangle) {
+        int n = (int) triangle.size();
+        std::vector<int> dp(n);
+        dp[0] = triangle[0][0];
+
+        for (int i = 1; i < n; i++) {
+            for (int j = i; j >= 0; j--) {
+                if (j == 0) {
+                    dp[j] += triangle[i][j];
+                } else if (j == i) {
+                    dp[j] = dp[j - 1] + triangle[i][j];
+                } else {
+                    dp[j] = std::min(dp[j], dp[j - 1]) + triangle[i][j];
+                }
+            }
+        }
+
+        int res = std::numeric_limits<int>::max();
+        for (int i = 0; i < n; i++) {
+            res = std::min(res, dp[i]);
+        }
+        return res;
+    }
 };
 }// namespace Triangle
 
@@ -41,4 +66,5 @@ TEST(Solution, minimumTotal) {
     // case1
     std::vector<std::vector<int>> triangle1{{2}, {3, 4}, {6, 5, 7}, {4, 1, 8, 3}};
     EXPECT_EQ(sln.minimumTotal(triangle1), 11);
+    EXPECT_EQ(sln.minimumTotal1(triangle1), 11);
 }
