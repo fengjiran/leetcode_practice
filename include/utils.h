@@ -7,11 +7,11 @@
 
 #include "gtest/gtest.h"
 //#include <filesystem>
+#include <cmath>
 #include <fstream>
 #include <queue>
 #include <set>
 #include <unordered_set>
-#include <cmath>
 
 #define null INT32_MIN
 
@@ -26,6 +26,48 @@ struct TreeNode {
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
 
     TreeNode(int x, TreeNode* left, TreeNode* right) : val(x), left(left), right(right) {}
+};
+
+class UnionFind {
+public:
+    explicit UnionFind(int n) : count(n) {
+        parent.resize(n);
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+        }
+    }
+
+    void unionNodes(int p, int q) {
+        int rootP = find(p);
+        int rootQ = find(q);
+        if (rootP == rootQ) {
+            return;
+        }
+
+        parent[rootP] = rootQ;
+        count--;
+    }
+
+    bool isConnected(int p, int q) {
+        int rootP = find(p);
+        int rootQ = find(q);
+        return rootP == rootQ;
+    }
+
+    int find(int x) {
+        while (parent[x] != x) {
+            parent[x] = find(parent[x]);
+        }
+        return parent[x];
+    }
+
+    int getCount() {
+        return count;
+    }
+
+private:
+    int count;
+    std::vector<int> parent;
 };
 
 bool Compare2DVector(std::vector<std::vector<int>>& nums1, std::vector<std::vector<int>>& nums2);
