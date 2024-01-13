@@ -15,7 +15,10 @@ ELSE ()
     message(STATUS "Other Platform: ${CMAKE_SYSTEM_NAME}")
 ENDIF (CMAKE_SYSTEM_NAME MATCHES "Linux")
 
-file(GLOB_RECURSE SRC_FILES ${PROJECT_SOURCE_DIR}/solutions/*.cpp main.cpp)
+file(GLOB_RECURSE SRC_FILES
+        ${PROJECT_SOURCE_DIR}/solutions/*.cpp
+        ${PROJECT_SOURCE_DIR}/tips/*.cpp
+        main.cpp)
 
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 
