@@ -7,7 +7,7 @@ namespace BinarySearch {
 class Solution {
 public:
     // find left boundary
-    int search(std::vector<int>& nums, int target) {
+    int searchLeftBoundary(std::vector<int>& nums, int target) {
         int left = 0;
         int right = (int) nums.size();
         while (left < right) {
@@ -25,6 +25,10 @@ public:
             return -1;
         }
         return nums[left] == target ? left : -1;
+    }
+
+    int searchRightBoundary(std::vector<int>& nums, int target) {
+        //
     }
 };
 }// namespace BinarySearch
