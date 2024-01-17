@@ -15,7 +15,7 @@ public:
             if (nums[mid] == target) {
                 return mid;
             }
-            if (nums[mid] >= nums[0]) {
+            if (nums[mid] >= nums[left]) {
                 if (nums[mid] > target && target >= nums[left]) {
                     right = mid;
                 } else {
