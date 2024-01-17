@@ -37,7 +37,7 @@ bool Compare2DString(std::vector<std::string>& str1, std::vector<std::string>& s
     return true;
 }
 
-bool isPalindrome(const std::string& s, int left, int right) {
+bool isPalindrome1(const std::string& s, int left, int right) {
     int n = (right - left + 1) / 2;
     for (int i = left; i < left + n; i++) {
         if (s[i] != s[right + left - i]) {
@@ -46,6 +46,18 @@ bool isPalindrome(const std::string& s, int left, int right) {
     }
     return true;
 }
+
+bool isPalindrome(const std::string& s, int left, int right) {
+    while (left < right) {
+        if (s[left] != s[right]) {
+            return false;
+        }
+        left++;
+        right--;
+    }
+    return true;
+}
+
 
 // construct binary tree from level order
 // ref:https://developer.aliyun.com/article/1217826
