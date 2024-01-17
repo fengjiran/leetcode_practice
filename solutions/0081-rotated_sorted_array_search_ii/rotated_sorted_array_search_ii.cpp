@@ -15,6 +15,12 @@ public:
                 return true;
             }
             if (nums[mid] == nums[left]) {
+                //                while (nums[left] == nums[mid]) {
+                //                    left++;
+                //                    if (left == right) {
+                //                        break;
+                //                    }
+                //                }
                 left++;
             } else if (nums[mid] > nums[left]) {
                 if (target >= nums[left] && target < nums[mid]) {
