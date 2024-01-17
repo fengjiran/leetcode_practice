@@ -7,6 +7,43 @@ namespace ShipPkgs {
 class Solution {
 public:
     int shipWithinDays(std::vector<int>& weights, int days) {
+        int left = 0;
+        int right = 0;
+        for (int weight: weights) {
+            left = std::max(left, weight);
+            right += weight;
+        }
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (getDays(weights, mid) > days) {
+                left = mid + 1;
+            } else if (getDays(weights, mid) < days) {
+                right = mid;
+            } else if (getDays(weights, mid) == days) {
+                right = mid;
+            }
+        }
+        return left;
+    }
+
+    int getDays(std::vector<int>& weights, int cap) {
+        int days = 0;
+        int sum = 0;
+        int i = 0;
+        while (i < weights.size()) {
+            sum += weights[i];
+            if (sum > cap) {
+                days++;
+                sum = 0;
+                continue;
+            }
+            if (i == weights.size() - 1) {
+                days++;
+            }
+            i++;
+        }
+        return days;
     }
 };
 }// namespace ShipPkgs
