@@ -7,16 +7,32 @@ namespace MinSpeedArrive {
 class Solution {
 public:
     int minSpeedOnTime(std::vector<int>& dist, double hour) {
+        int left = 1;
+        int right = 1e7 + 1;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            double times = getTime(dist, mid);
+            if (times > hour) {
+                left = mid + 1;
+            } else if (times < hour) {
+                right = mid;
+            } else {
+                right = mid;
+            }
+        }
+        return left == 1e7 + 1 ? -1 : left;
     }
 
-    int getTime(std::vector<int>& dist, int speed) {
-        int times = 0;
-        for (int d: dist) {
-            times += d / speed;
-            if (d % speed != 0) {
+    double getTime(std::vector<int>& dist, int speed) {
+        double times = 0;
+        int n = (int) dist.size();
+        for (int i = 0; i < n - 1; i++) {
+            times += dist[i] / speed;
+            if (dist[i] % speed != 0) {
                 times++;
             }
         }
+        times += dist[n - 1] * 1.0 / speed;
         return times;
     }
 };
