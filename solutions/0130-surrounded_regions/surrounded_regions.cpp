@@ -39,6 +39,7 @@ public:
             int sz = q.size();
             for (int p = 0; p < sz; p++) {
                 std::pair<int, int> cur = q.front();
+//                auto [a, b] = q.front();
                 q.pop();
                 if (cur.first < 0 || cur.first >= m || cur.second < 0 || cur.second >= n) {
                     continue;
