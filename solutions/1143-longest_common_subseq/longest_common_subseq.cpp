@@ -19,12 +19,12 @@ public:
         size_t m = text1.length();
         size_t n = text2.length();
         std::vector<std::vector<int>> dp(m + 1, std::vector<int>(n + 1));
-//        for (int i = 0; i <= m; i++) {
-//            dp[i][0] = 0;
-//        }
-//        for (int j = 0; j <= n; j++) {
-//            dp[0][j] = 0;
-//        }
+        //        for (int i = 0; i <= m; i++) {
+        //            dp[i][0] = 0;
+        //        }
+        //        for (int j = 0; j <= n; j++) {
+        //            dp[0][j] = 0;
+        //        }
 
         for (int i = 1; i <= m; i++) {
             for (int j = 1; j <= n; j++) {
@@ -36,6 +36,27 @@ public:
             }
         }
         return dp[m][n];
+    }
+
+    // use space compression
+    int LCS1(std::string& s1, std::string& s2) {
+        size_t m = s1.size();
+        size_t n = s2.size();
+        std::vector<int> dp(n + 1);
+
+        for (int i = 1; i <= m; i++) {
+            int pre = dp[0];
+            for (int j = 1; j <= n; j++) {
+                int nextPre = dp[j];
+                if (s1[i - 1] == s2[j - 1]) {
+                    dp[j] = pre + 1;
+                } else {
+                    dp[j] = std::max(dp[j], dp[j - 1]);
+                }
+                pre = nextPre;
+            }
+        }
+        return dp[n];
     }
 
     int dp(std::string& s1, int i, std::string& s2, int j) {
@@ -68,4 +89,5 @@ TEST(Solution, longestCommonSubsequence) {
     std::string text2 = "ace";
     EXPECT_EQ(sln.longestCommonSubsequence(text1, text2), 3);
     EXPECT_EQ(sln.LCS(text1, text2), 3);
+    EXPECT_EQ(sln.LCS1(text1, text2), 3);
 }
