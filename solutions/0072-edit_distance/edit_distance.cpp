@@ -41,6 +41,31 @@ public:
         return dp[m][n];
     }
 
+    // space compression
+    int minDistance2(std::string& word1, std::string& word2) {
+        size_t m = word1.length();
+        size_t n = word2.length();
+        std::vector<int> dp(n + 1);
+        for (int j = 1; j <= n; j++) {
+            dp[j] = j;
+        }
+
+        for (int i = 1; i <= m; i++) {
+            int tmp1 = dp[0];
+            dp[0] = i;
+            for (int j = 1; j <= n; j++) {
+                int tmp2 = dp[j];
+                if (word1[i - 1] == word2[j - 1]) {
+                    dp[j] = tmp1;
+                } else {
+                    dp[j] = std::min({tmp2 + 1, dp[j - 1] + 1, tmp1 + 1});
+                }
+                tmp1 = tmp2;
+            }
+        }
+        return dp[n];
+    }
+
     int dp(std::string& s1, int i, std::string& s2, int j, std::vector<std::vector<int>>& memo) {
         if (i == -1) {
             return j + 1;
@@ -74,6 +99,6 @@ TEST(Solution, minDistance) {
     std::string word2 = "ros";
     EXPECT_EQ(sln.minDistance(word1, word2), 3);
     EXPECT_EQ(sln.minDistance1(word1, word2), 3);
-
+    EXPECT_EQ(sln.minDistance2(word1, word2), 3);
     // case2
 }
