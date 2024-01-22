@@ -88,6 +88,36 @@ public:
 
         return memo[i][j];
     }
+
+    int minDistance3(std::string& word1, std::string& word2) {
+        int m = (int) word1.size();
+        int n = (int) word2.size();
+        std::vector<std::vector<int>> memo(m + 1, std::vector<int>(n + 1, -1));
+        return dp2(word1, m, word2, n, memo);
+    }
+
+    int dp2(std::string& s1, int i, std::string& s2, int j, std::vector<std::vector<int>>& memo) {
+        if (i == 0) {
+            return j;
+        }
+
+        if (j == 0) {
+            return i;
+        }
+
+        if (memo[i][j] != -1) {
+            return memo[i][j];
+        }
+
+        if (s1[i - 1] == s2[j - 1]) {
+            memo[i][j] = dp2(s1, i - 1, s2, j - 1, memo);
+        } else {
+            memo[i][j] = std::min({dp2(s1, i - 1, s2, j, memo) + 1,
+                                   dp2(s1, i - 1, s2, j - 1, memo) + 1,
+                                   dp2(s1, i, s2, j - 1, memo) + 1});
+        }
+        return memo[i][j];
+    }
 };
 }// namespace EditDistance
 
@@ -100,5 +130,6 @@ TEST(Solution, minDistance) {
     EXPECT_EQ(sln.minDistance(word1, word2), 3);
     EXPECT_EQ(sln.minDistance1(word1, word2), 3);
     EXPECT_EQ(sln.minDistance2(word1, word2), 3);
+    EXPECT_EQ(sln.minDistance3(word1, word2), 3);
     // case2
 }
