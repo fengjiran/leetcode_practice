@@ -20,7 +20,7 @@ public:
             dp[i] = std::max(dp[i - 1], dp[i - 2] + nums[i - 1]);
         }
         int a = dp[n - 1];
-        dp.clear();
+//        dp.clear();
 
         // range [1, n - 1]
         dp[0] = 0;
