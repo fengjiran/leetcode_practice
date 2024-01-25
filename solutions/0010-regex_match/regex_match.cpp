@@ -55,6 +55,7 @@ public:
     }
 
     // use dp table
+    // https://leetcode.cn/problems/regular-expression-matching/solutions/296114/shou-hui-tu-jie-wo-tai-nan-liao-by-hyj8/
     bool isMatch1(std::string& s, std::string& p) {
         int m = static_cast<int>(s.length());
         int n = static_cast<int>(p.length());
@@ -77,8 +78,12 @@ public:
                 if (s[i - 1] == p[j - 1] || p[j - 1] == '.') {
                     dp[i][j] = dp[i - 1][j - 1];
                 } else {
-                    if (j - 1 < n && p[j - 1] == '*') {
-                        dp[i][j] = dp[i][j - 2] || dp[i - 1][j];
+                    if (p[j - 1] == '*') {
+                        if (s[i - 1] == p[j - 2] || p[j - 2] == '.') {
+                            dp[i][j] = dp[i][j - 2] || dp[i - 1][j - 2] || dp[i - 1][j];
+                        } else {
+                            dp[i][j] = dp[i][j - 2];
+                        }
                     } else {
                         dp[i][j] = false;
                     }
