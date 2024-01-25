@@ -10,12 +10,20 @@ public:
         std::cout << "Base class.\n";
     }
     virtual ~Base() = default;
+
+    void f1() {
+        std::cout << "Base class\n";
+    }
 };
 
 class Derived1 : public Base {
 public:
     void f() override {
         std::cout<< "Derived1 class.\n";
+    }
+
+    void f1() {
+        std::cout << "derived1 class\n";
     }
 };
 
@@ -41,8 +49,8 @@ void typeidTest() {
               << "char type: " << typeid(char).name() << std::endl
               << sizeof(A) << std::endl;
 
-    Base* p = new Derived2;
-    p->f();
+    Base* p = new Derived1;
+    p->f1();
     delete p;
 }
 
