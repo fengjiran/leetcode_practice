@@ -35,6 +35,26 @@ public:
         return memo[i][j];
     }
 
+    // with dp table
+    int longestPalindromeSubseq1(std::string& s) {
+        int m = static_cast<int>(s.length());
+        std::vector<std::vector<int>> dp(m, std::vector<int>(m));
+        for (int i = 0; i < m; i++) {
+            dp[i][i] = 1;
+        }
+
+        for (int i = m - 1; i >= 0; i--) {
+            for (int j = i + 1; j < m; j++) {
+                if (s[i] == s[j]) {
+                    dp[i][j] = dp[i + 1][j - 1] + 2;
+                } else {
+                    dp[i][j] = std::max(dp[i][j - 1], dp[i + 1][j]);
+                }
+            }
+        }
+        return dp[0][m - 1];
+    }
+
     std::vector<std::vector<int>> memo;
 };
 }// namespace LongestPalindromicSubseq
@@ -45,9 +65,11 @@ TEST(Solution, longestPalindromeSubseq) {
     // case1
     std::string s1 = "bbbab";
     EXPECT_EQ(sln.longestPalindromeSubseq(s1), 4);
+    EXPECT_EQ(sln.longestPalindromeSubseq1(s1), 4);
     sln.memo.clear();
 
     // case2
     std::string s2 = "cbbd";
     EXPECT_EQ(sln.longestPalindromeSubseq(s2), 2);
+    EXPECT_EQ(sln.longestPalindromeSubseq1(s2), 2);
 }
