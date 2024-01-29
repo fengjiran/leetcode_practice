@@ -29,7 +29,7 @@ public:
             for (int j = 0; j < n; j++) {
                 if (grid[i][j] == '1') {
                     res++;
-                    BFS(grid, i, j);
+                    BFS1(grid, i, j);
                 }
             }
         }
@@ -62,6 +62,7 @@ public:
             size_t sz = q.size();
             for (int p = 0; p < sz; p++) {
                 std::pair<int, int> cur = q.front();
+                //                auto [a, b] = q.front();
                 q.pop();
                 if (cur.first < 0 || cur.first >= m || cur.second < 0 || cur.second >= n) {
                     continue;
@@ -75,6 +76,26 @@ public:
                 q.emplace(cur.first, cur.second + 1);
                 q.emplace(cur.first - 1, cur.second);
                 q.emplace(cur.first + 1, cur.second);
+            }
+        }
+    }
+
+    void BFS1(std::vector<std::vector<char>>& grid, int i, int j) {
+        size_t m = grid.size();
+        size_t n = grid[0].size();
+        std::queue<std::pair<int, int>> q;
+        q.emplace(i, j);
+        while (!q.empty()) {
+            auto [a, b] = q.front();
+            q.pop();
+            for (int k = 0; k < 4; k++) {
+                int x = a + dirs[k];
+                int y = b + dirs[k + 1];
+                if (x < 0 || x >= m || y < 0 || y >= n || grid[x][y] == '0') {
+                    continue;
+                }
+                grid[x][y] = '0';
+                q.emplace(x, y);
             }
         }
     }
