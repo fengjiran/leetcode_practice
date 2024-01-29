@@ -14,12 +14,16 @@ public:
     void f1() {
         std::cout << "Base class\n";
     }
+
+protected:
+    int a{0};
 };
 
 class Derived1 : public Base {
 public:
     void f() override {
-        std::cout<< "Derived1 class.\n";
+        std::cout << "Derived1 class.\n";
+        std::cout << a;
     }
 
     void f1() {
