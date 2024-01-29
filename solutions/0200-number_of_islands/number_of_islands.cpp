@@ -48,10 +48,9 @@ public:
         }
 
         grid[i][j] = '0';
-        DFS(grid, i, j - 1);
-        DFS(grid, i, j + 1);
-        DFS(grid, i - 1, j);
-        DFS(grid, i + 1, j);
+        for (int k = 0; k < 4; k++) {
+            DFS(grid, i + dirs[k], j + dirs[k + 1]);
+        }
     }
 
     void BFS(std::vector<std::vector<char>>& grid, int i, int j) {
@@ -79,6 +78,9 @@ public:
             }
         }
     }
+
+private:
+    std::vector<int> dirs{-1, 0, 1, 0, -1};
 };
 }// namespace NumberOfIslands
 
