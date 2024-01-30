@@ -29,7 +29,7 @@ public:
             for (int j = 0; j < n; j++) {
                 if (grid[i][j] == '1') {
                     res++;
-                    BFS1(grid, i, j);
+                    BFS(grid, i, j);
                 }
             }
         }
@@ -59,23 +59,16 @@ public:
         std::queue<std::pair<int, int>> q;
         q.emplace(i, j);
         while (!q.empty()) {
-            size_t sz = q.size();
-            for (int p = 0; p < sz; p++) {
-                std::pair<int, int> cur = q.front();
-                //                auto [a, b] = q.front();
-                q.pop();
-                if (cur.first < 0 || cur.first >= m || cur.second < 0 || cur.second >= n) {
-                    continue;
-                }
-                if (grid[cur.first][cur.second] == '0') {
-                    continue;
-                }
+            auto [a, b] = q.front();
+            q.pop();
 
-                grid[cur.first][cur.second] = '0';
-                q.emplace(cur.first, cur.second - 1);
-                q.emplace(cur.first, cur.second + 1);
-                q.emplace(cur.first - 1, cur.second);
-                q.emplace(cur.first + 1, cur.second);
+            if (a < 0 || a >= m || b < 0 || b >= n || grid[a][b] == '0') {
+                continue;
+            }
+
+            grid[a][b] = '0';
+            for (int p = 0; p < 4; p++) {
+                q.emplace(a + dirs[p], b + dirs[p + 1]);
             }
         }
     }
