@@ -12,7 +12,8 @@ public:
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 if (grid1[i][j] == 0 && grid2[i][j] == 1) {
-                    dfs(grid2, i, j);
+                    //                    dfs(grid2, i, j);
+                    bfs(grid2, i, j);
                 }
             }
         }
@@ -22,16 +23,18 @@ public:
             for (int j = 0; j < n; j++) {
                 if (grid2[i][j] == 1) {
                     res++;
-                    dfs(grid2, i, j);
+                    //                    dfs(grid2, i, j);
+                    bfs(grid2, i, j);
                 }
             }
         }
         return res;
     }
 
+private:
     void dfs(std::vector<std::vector<int>>& grid, int i, int j) {
-        int m = grid.size();
-        int n = grid[0].size();
+        int m = (int) grid.size();
+        int n = (int) grid[0].size();
         if (i < 0 || i >= m || j < 0 || j >= n) {
             return;
         }
@@ -41,11 +44,31 @@ public:
         }
 
         grid[i][j] = 0;
-        dfs(grid, i, j - 1);
-        dfs(grid, i, j + 1);
-        dfs(grid, i - 1, j);
-        dfs(grid, i + 1, j);
+        for (int p = 0; p < 4; p++) {
+            dfs(grid, i + dirs[p], j + dirs[p + 1]);
+        }
     }
+
+    void bfs(std::vector<std::vector<int>>& grid, int i, int j) {
+        int m = (int) grid.size();
+        int n = (int) grid[0].size();
+        std::queue<std::pair<int, int>> q;
+        q.emplace(i, j);
+        //        grid[i][j] = 0;
+        while (!q.empty()) {
+            auto [a, b] = q.front();
+            q.pop();
+            if (a < 0 || a >= m || b < 0 || b >= n || grid[a][b] == 0) {
+                continue;
+            }
+            grid[a][b] = 0;
+            for (int p = 0; p < 4; p++) {
+                q.emplace(a + dirs[p], b + dirs[p + 1]);
+            }
+        }
+    }
+
+    std::vector<int> dirs{-1, 0, 1, 0, -1};
 };
 }// namespace SubIslands
 
