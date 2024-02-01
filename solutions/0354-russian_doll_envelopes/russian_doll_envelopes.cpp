@@ -17,7 +17,7 @@ public:
         for (auto& item: envelopes) {
             height.push_back(item[1]);
         }
-        return lis(height);
+        return lis1(height);
     }
 
     static int lis(std::vector<int>& nums) {
@@ -43,6 +43,25 @@ public:
             top[left] = poker;
         }
         return piles;
+    }
+
+    // use dp
+    static int lis1(std::vector<int>& nums) {
+        int n = (int) nums.size();
+        std::vector<int> dp(n, 1);
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[i] > nums[j]) {
+                    dp[i] = std::max(dp[i], dp[j] + 1);
+                }
+            }
+        }
+
+        int res = 0;
+        for (int i = 0; i < n; i++) {
+            res = std::max(res, dp[i]);
+        }
+        return res;
     }
 };
 }// namespace
