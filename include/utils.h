@@ -101,12 +101,13 @@ public:
         swim(len);
     }
 
-    void deleteMax() {
+    int deleteMax() {
         int max = pq[1];
         std::swap(pq[1], pq[len]);
         pq[len] = 0;
         len--;
         sink(1);
+        return max;
     }
 
     int size() const {
