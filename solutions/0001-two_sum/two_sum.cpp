@@ -33,4 +33,8 @@ TEST(Solution, twoSum) {
     for (int item: res_a) {
         EXPECT_TRUE(std::find(ans_a.begin(), ans_a.end(), item) != ans_a.end());
     }
+
+    const char* str1 = "abc";
+    const char* str2 = "abc";
+    std::cout << (str1 == str2) << std::endl;
 }
