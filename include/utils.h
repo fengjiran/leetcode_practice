@@ -9,8 +9,8 @@
 #include <cmath>
 #include <fstream>
 #include <queue>
-#include <stack>
 #include <set>
+#include <stack>
 #include <unordered_set>
 
 #define null INT32_MIN
@@ -77,6 +77,55 @@ public:
 private:
     int count;
     std::vector<int> parent;
+};
+
+class BinaryHeap {
+    std::vector<int> pq{0};
+    int len{0};
+    void swim(int k) {
+        while (k > 1 && pq[k] > pq[k / 2]) {
+            std::swap(pq[k], pq[k / 2]);
+            k = k / 2;
+        }
+    }
+
+    void sink(int k) {
+        while (2 * k <= len) {
+            int j = 2 * k;
+            if (j < len && pq[j + 1] > pq[j]) {
+                j++;
+            }
+            if (pq[k] >= pq[j]) {
+                break;
+            }
+            std::swap(pq[k], pq[j]);
+            k = j;
+        }
+    }
+
+public:
+    void insert(int v) {
+        pq.push_back(v);
+        len++;
+        swim(len);
+    }
+
+    int deleteMax() {
+        int max = pq[1];
+        std::swap(pq[1], pq[len]);
+        pq[len] = 0;
+        len--;
+        sink(1);
+        return max;
+    }
+
+    int size() const {
+        return len;
+    }
+
+    bool empty() const {
+        return len == 0;
+    }
 };
 
 bool Compare2DVector(std::vector<std::vector<int>>& nums1, std::vector<std::vector<int>>& nums2);
