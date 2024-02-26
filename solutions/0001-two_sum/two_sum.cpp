@@ -36,5 +36,6 @@ TEST(Solution, twoSum) {
 
     const char* str1 = "abc";
     const char* str2 = "abc";
-    std::cout << (str1 == str2) << std::endl;
+    const char* str3 = "abd";
+    std::cout << std::boolalpha << (str1 == str2) << std::endl;
 }
