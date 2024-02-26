@@ -65,4 +65,8 @@ TEST(Tips, typeid) {
     int a;
     int b;
     EXPECT_TRUE(typeid(a) == typeid(b));
+    static char* s[] = {"black", "white", "yellow", "violet"};
+    char **ptr[] = {s + 3, s + 2, s + 1, s}, ***p = ptr;
+    **++p;
+    std::cout << *++*++p + 3 << std::endl;
 }
