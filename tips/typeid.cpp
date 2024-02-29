@@ -69,4 +69,17 @@ TEST(Tips, typeid) {
     char **ptr[] = {s + 3, s + 2, s + 1, s}, ***p = ptr;
     **++p;
     std::cout << *++*++p + 3 << std::endl;
+
+    std::unordered_map<std::string, int> map1{
+            {"ab", 1},
+            {"cd", 2},
+            {"ef", 3}};
+
+    std::unordered_map<std::string, int> map2{
+            {"cd", 2},
+            {"ef", 3},
+            {"ab", 1}};
+
+    std::cout << std::boolalpha << std::equal(map1.begin(), map1.end(), map2.begin(), map2.end()) << std::endl;
+    std::cout << std::boolalpha << (map1 == map2) << std::endl;
 }
