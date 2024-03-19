@@ -38,4 +38,6 @@ TEST(Solution, twoSum) {
     const char* str2 = "abc";
     const char* str3 = "abd";
     std::cout << std::boolalpha << (str1 == str2) << std::endl;
+    int b[] = {1, 2, 3};
+    int* p = &(*(b + 1));
 }
