@@ -13,6 +13,12 @@ public:
 
     void f1() {
         std::cout << "Base class\n";
+        int b = 1;
+        f2(b + 1);
+    }
+
+    void f2(const int& a) {
+        std::cout << a << std::endl;
     }
 
 protected:
