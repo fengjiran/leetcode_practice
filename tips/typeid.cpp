@@ -41,6 +41,18 @@ class Derived2 : public Derived1 {
     //
 };
 
+class People {
+    std::string name_;
+public:
+//    People(std::string name) : name_(std::move(name)) {
+//        std::cout << "move ctor\n";
+//    }
+
+    People(const std::string& name) : name_(name) {
+        std::cout << "copy ctor\n";
+    }
+};
+
 struct A {
     bool a;
     float b;
@@ -62,6 +74,10 @@ void typeidTest() {
     Base* p = new Derived1;
     p->f1();
     delete p;
+
+    People a("Alice");
+    std::string bn = "Bob";
+    People bb(bn);
 }
 
 }// namespace TIPS
