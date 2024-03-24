@@ -17,7 +17,7 @@ ENDIF (CMAKE_SYSTEM_NAME MATCHES "Linux")
 
 file(GLOB_RECURSE SRC_FILES
         ${PROJECT_SOURCE_DIR}/solutions/*.cpp
-        ${PROJECT_SOURCE_DIR}/tips/*.cpp
+        ${PROJECT_SOURCE_DIR}/cpptest/*.cpp
         main.cpp)
 
 add_executable(${PROJECT_NAME} ${SRC_FILES})
