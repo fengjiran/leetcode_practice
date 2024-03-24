@@ -68,8 +68,10 @@ void typeidTest() {
 
 TEST(Tips, typeid) {
     TIPS::typeidTest();
-    int a;
-    int b;
+    int a = 5;
+    int&& ref = std::move(a);
+    int b = a;
+    std::cout << a << std::endl;
     EXPECT_TRUE(typeid(a) == typeid(b));
     static char* s[] = {"black", "white", "yellow", "violet"};
     char **ptr[] = {s + 3, s + 2, s + 1, s}, ***p = ptr;
