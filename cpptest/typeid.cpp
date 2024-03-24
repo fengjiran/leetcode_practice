@@ -85,7 +85,7 @@ void typeidTest() {
 TEST(Tips, typeid) {
     TIPS::typeidTest();
     int a = 5;
-    int&& ref = std::move(a);
+//    int&& ref = a;
     int b = a;
     std::cout << a << std::endl;
     EXPECT_TRUE(typeid(a) == typeid(b));
