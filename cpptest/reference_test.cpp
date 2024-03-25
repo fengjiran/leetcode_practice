@@ -24,7 +24,8 @@ TEST(RefTest, test1) {
 
     RefTest::change(5);
 
-    std::cout << &a << std::endl;
-    std::cout << &leftRef << std::endl;
-    std::cout << &rightRef << std::endl;
+    std::cout << "Print address:\n";
+    std::cout << "var: " << &a << std::endl;
+    std::cout << "left ref: " << &leftRef << std::endl;
+    std::cout << "right ref: " << &rightRef << std::endl;
 }
