@@ -5,6 +5,12 @@
 namespace TemplateTest {
 
 template<typename T>
+Blob<T>::Blob() : data(std::make_shared<std::vector<T>>()) {}
+
+template<typename T>
+Blob<T>::Blob(std::initializer_list<T> il) : data(std::make_shared<std::vector<T>>(il)) {}
+
+template<typename T>
 void Blob<T>::check(size_type i, const std::string& msg) const {
     if (data->size() <= i) {
         throw std::out_of_range(msg);
