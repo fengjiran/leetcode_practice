@@ -96,10 +96,10 @@ TEST(RefTest, test1) {
 }
 
 TEST(RefTest, test2) {
-    Array a;
-//    Array b(std::move(a));
-//    Array c = std::move(a);
-    Array d = Array();
+    Array a(10);
+    Array b(std::move(a)); // move ctor
+    Array c;
+    c = Array(5);  // move assignment
 }
 
 }// namespace RefTest
