@@ -102,4 +102,9 @@ TEST(RefTest, test2) {
     c = Array(5);  // move assignment
 }
 
+TEST(RefTest, test3) {
+    std::vector<Array> vec;
+    vec.push_back(Array());
+}
+
 }// namespace RefTest
