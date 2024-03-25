@@ -8,6 +8,68 @@ void change(int&& ref) {
     ref = 8;
 }
 
+class Array {
+public:
+    Array() : m_data(nullptr), m_size(0) {}
+    explicit Array(int size) : m_size(size) {
+        m_data = new int[size];
+    }
+
+    // copy ctor
+    Array(const Array& rhs) {
+        std::cout << "Copy Constructor.\n";
+        m_size = rhs.m_size;
+        m_data = new int[m_size];
+        for (int i = 0; i < m_size; ++i) {
+            m_data[i] = rhs.m_data[i];
+        }
+    }
+
+    // move ctor
+    Array(Array&& rhs) noexcept {
+        std::cout << "Move Constructor.\n";
+        m_data = rhs.m_data;
+        m_size = rhs.m_size;
+        rhs.m_data = nullptr;
+        rhs.m_size = 0;
+    }
+
+    // copy assignment
+    Array& operator=(const Array& rhs) {
+        std::cout << "Copy Assignment.\n";
+        if (this != &rhs) {
+            delete[] m_data;
+            m_size = rhs.m_size;
+            m_data = new int[m_size];
+            for (int i = 0; i < m_size; ++i) {
+                m_data[i] = rhs.m_data[i];
+            }
+        }
+        return *this;
+    }
+
+    // move assignment
+    Array& operator=(Array&& rhs) noexcept {
+        std::cout << "Move Assignment.\n";
+        if (this != &rhs) {
+            delete[] m_data;
+            m_data = rhs.m_data;
+            m_size = rhs.m_size;
+            rhs.m_data = nullptr;
+            rhs.m_size = 0;
+        }
+        return *this;
+    }
+
+    ~Array() {
+        delete[] m_data;
+    }
+
+private:
+    int m_size;
+    int* m_data;
+};
+
 TEST(RefTest, test1) {
     int a = 5;
     int& leftRef = a;
@@ -34,7 +96,9 @@ TEST(RefTest, test1) {
 }
 
 TEST(RefTest, test2) {
-    //
+    Array a;
+//    Array b(std::move(a));
+    Array c = std::move(a);
 }
 
 }// namespace RefTest
