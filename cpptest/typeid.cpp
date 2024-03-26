@@ -37,10 +37,6 @@ public:
     }
 };
 
-class Derived2 : public Derived1 {
-    //
-};
-
 class People {
     std::string name_;
 public:
