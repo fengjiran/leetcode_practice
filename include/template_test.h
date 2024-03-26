@@ -46,6 +46,9 @@ public:
     Blob();
     Blob(std::initializer_list<T> il);
 
+    template<typename Iter>
+    Blob(Iter b, Iter e);
+
     size_type size() const { return data->size(); }
 
     bool empty() { return data->empty(); }
@@ -72,6 +75,10 @@ Blob<T>::Blob() : data(std::make_shared<std::vector<T>>()) {}
 
 template<typename T>
 Blob<T>::Blob(std::initializer_list<T> il) : data(std::make_shared<std::vector<T>>(il)) {}
+
+template<typename T>
+template<typename Iter>
+Blob<T>::Blob(Iter b, Iter e) : data(std::make_shared<std::vector<T>>(b, e)) {}
 
 template<typename T>
 void Blob<T>::check(size_type i, const std::string& msg) const {
