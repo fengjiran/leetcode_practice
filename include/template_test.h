@@ -20,6 +20,20 @@ int compare(const T& v1, const T& v2, F f = F()) {
     return 0;
 }
 
+class DebugDelete {
+public:
+    explicit DebugDelete(std::ostream& s = std::cerr) : os(s) {}
+
+    template<typename T>
+    void operator()(T* p) const {
+        os << "Delete unique_ptr.\n";
+        delete p;
+    }
+
+private:
+    std::ostream& os;
+};
+
 template<typename T>
 class Blob {
 public:

@@ -17,4 +17,14 @@ TEST(TemplateTest, test2) {
     std::cout << "blob size: " << blob.size() << std::endl;
 }
 
+TEST(TemplateTest, test3) {
+    std::cout << "\nTemplateTest_test3:\n";
+    double* p = new double;
+    DebugDelete d;
+    d(p);
+
+    int* ip = new int;
+    DebugDelete()(ip);
+}
+
 }// namespace TemplateTest
