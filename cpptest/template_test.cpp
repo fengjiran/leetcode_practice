@@ -19,7 +19,7 @@ TEST(TemplateTest, test2) {
 
 TEST(TemplateTest, test3) {
     std::cout << "\nTemplateTest_test3:\n";
-    double* p = new double;
+    auto* p = new double;
     DebugDelete d;
     d(p);
 
