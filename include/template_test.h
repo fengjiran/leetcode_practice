@@ -9,6 +9,11 @@
 namespace TemplateTest {
 
 template<typename T>
+T myMax(const T& x, const T& y) {
+    return x > y ? x : y;
+}
+
+template<typename T>
 class Blob {
 public:
     //    typedef T value_type;

@@ -41,4 +41,10 @@ T& Blob<T>::operator[](size_type i) {
     return (*data)[i];
 }
 
+TEST(TemplateTest, test1) {
+    std::cout << myMax(3, 7) << std::endl;
+    std::cout << myMax(3.0, 7.0) << std::endl;
+    std::cout << myMax('g', 'e') << std::endl;
+}
+
 }// namespace TemplateTest
