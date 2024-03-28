@@ -46,6 +46,7 @@ private:
     void check(size_type i, const std::string& msg) const;
 };
 
+
 }// namespace TemplateTest
 
 #endif//LEETCODE_PRACTICE_TEMPLATE_TEST_H
