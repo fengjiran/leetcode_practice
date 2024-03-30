@@ -8,6 +8,10 @@ extern template int myMax(const int&, const int&);
 extern template double myMax(const double&, const double&);
 extern template char myMax(const char&, const char&);
 
+extern template int compare(const int&, const int&, std::less<int>);
+
+extern template class Blob<std::string>;
+
 TEST(TemplateTest, test1) {
     std::cout << "\nTemplateTest_test1:\n";
     std::cout << myMax(3, 7) << std::endl;

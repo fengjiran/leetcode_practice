@@ -7,4 +7,8 @@ namespace TemplateTest {
 template int myMax(const int&, const int&);
 template double myMax(const double&, const double&);
 template char myMax(const char&, const char&);
+
+template int compare(const int&, const int&, std::less<int>);
+
+template class Blob<std::string>;
 }// namespace TemplateTest
