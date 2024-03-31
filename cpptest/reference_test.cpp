@@ -96,15 +96,19 @@ TEST(RefTest, test1) {
 }
 
 TEST(RefTest, test2) {
+    std::cout << "\nRefTest_test2:\n";
     Array a(10);
-    Array b(std::move(a)); // move ctor
-    Array c;
-    c = Array(5);  // move assignment
+    //    Array b(std::move(a));// move ctor
+    Array c = a;  // copy ctor
+    c = Array(5);// move assignment
+    Array d = Array();
 }
 
 TEST(RefTest, test3) {
+    std::cout << "\nRefTest_test3:\n";
     std::vector<Array> vec;
     vec.push_back(Array());
+    vec.emplace_back();
 }
 
 }// namespace RefTest
