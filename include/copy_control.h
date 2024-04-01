@@ -24,6 +24,10 @@ public:
         }
         return *this;
     }
+    
+    ~HasPtr() {
+        //
+    }
 
 private:
     std::string* ps;
