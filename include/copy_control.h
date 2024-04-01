@@ -24,9 +24,9 @@ public:
         }
         return *this;
     }
-    
+
     ~HasPtr() {
-        //
+        delete ps;
     }
 
 private:
