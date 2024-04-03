@@ -4,18 +4,19 @@
 
 #ifndef LEETCODE_PRACTICE_COPY_CONTROL_H
 #define LEETCODE_PRACTICE_COPY_CONTROL_H
+#include "utils.h"
 
 namespace CopyControlTest {
-class HasPtr {
+class HasPtrLikeValue {
 public:
-    explicit HasPtr(const std::string& s = std::string()) : ps(new std::string(s)), i(0) {}
+    explicit HasPtrLikeValue(const std::string& s = std::string()) : ps(new std::string(s)), i(0) {}
 
-    HasPtr(const HasPtr& rhs) {
+    HasPtrLikeValue(const HasPtrLikeValue& rhs) {
         ps = new std::string(*rhs.ps);
         i = rhs.i;
     }
 
-    HasPtr& operator=(const HasPtr& rhs) {
+    HasPtrLikeValue& operator=(const HasPtrLikeValue& rhs) {
         if (this != &rhs) {
             auto newps = new std::string(*rhs.ps);
             delete ps;
@@ -25,13 +26,31 @@ public:
         return *this;
     }
 
-    ~HasPtr() {
+    ~HasPtrLikeValue() {
         delete ps;
     }
 
 private:
     std::string* ps;
     int i;
+};
+
+class HasPtrLikePointer {
+public:
+    explicit HasPtrLikePointer(const std::string& s = std::string())
+        : ps(new std::string(s)), i(0), cnt(new size_t(1)) {}
+
+    HasPtrLikePointer(const HasPtrLikePointer& rhs) : ps(rhs.ps), i(rhs.i), cnt(rhs.cnt) {
+        ++*cnt;
+    }
+
+    HasPtrLikePointer& operator=(const HasPtrLikePointer& rhs);
+    ~HasPtrLikePointer();
+
+private:
+    std::string* ps;
+    int i;
+    size_t* cnt;
 };
 }// namespace CopyControlTest
 
