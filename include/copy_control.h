@@ -52,6 +52,19 @@ private:
     int i;
     size_t* cnt;
 };
+
+class StrVec {
+public:
+
+private:
+    void free();
+
+private:
+    static std::allocator<std::string> alloc;
+    std::string* element;
+    std::string* cap;
+    std::string* firstFree;
+};
 }// namespace CopyControlTest
 
 #endif//LEETCODE_PRACTICE_COPY_CONTROL_H

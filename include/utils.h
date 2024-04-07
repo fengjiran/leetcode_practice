@@ -12,6 +12,7 @@
 #include <set>
 #include <stack>
 #include <unordered_set>
+#include <memory>
 
 #define null INT32_MIN
 
