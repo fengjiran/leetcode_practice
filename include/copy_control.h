@@ -55,13 +55,31 @@ private:
 
 class StrVec {
 public:
+    StrVec() : start(nullptr), cap(nullptr), firstFree(nullptr) {}
+    StrVec(const StrVec&);
+    StrVec& operator=(const StrVec&);
+
+    void push_back(const std::string&);
+    size_t size() const { return firstFree - start; }
+    size_t capacity() const { return cap - start; }
+    std::string* begin() const { return start; }
+    std::string* end() const { return firstFree; }
+    std::pair<std::string*, std::string*> AllocNCopy(const std::string* b, const std::string* e);
+
+    ~StrVec();
 
 private:
+    void reallocate();
     void free();
+    void CheckAndAlloc() {
+        if (firstFree == cap) {
+            reallocate();
+        }
+    }
 
 private:
     static std::allocator<std::string> alloc;
-    std::string* element;
+    std::string* start;
     std::string* cap;
     std::string* firstFree;
 };

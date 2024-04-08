@@ -24,4 +24,62 @@ HasPtrLikePointer::~HasPtrLikePointer() {
         delete cnt;
     }
 }
+
+void StrVec::push_back(const std::string& s) {
+    CheckAndAlloc();
+    alloc.construct(firstFree++, s);
+}
+
+void StrVec::reallocate() {
+    size_t newcap = size() != 0 ? 2 * size() : 1;
+    auto newdata = alloc.allocate(newcap);
+    auto src = start;
+    auto dest = newdata;
+    for (size_t i = 0; i < size(); ++i) {
+        alloc.construct(dest, std::move(*src));
+        ++dest;
+        ++src;
+    }
+    free();
+    start = newdata;
+    firstFree = dest;
+    cap = start + newcap;
+}
+
+void StrVec::free() {
+    if (start) {
+        auto p = firstFree;
+        while (p != start) {
+            alloc.destroy(--p);
+        }
+        alloc.deallocate(start, cap - firstFree);
+    }
+}
+
+std::pair<std::string*, std::string*> StrVec::AllocNCopy(const std::string* b, const std::string* e) {
+    auto data = alloc.allocate(e - b);
+    return {data, std::uninitialized_copy(b, e, data)};
+}
+
+StrVec::StrVec(const StrVec& rhs) {
+    auto newdata = AllocNCopy(rhs.begin(), rhs.end());
+    start = newdata.first;
+    firstFree = newdata.second;
+    cap = newdata.second;
+}
+
+StrVec& StrVec::operator=(const StrVec& rhs) {
+    if (this != &rhs) {
+        auto newdata = AllocNCopy(rhs.begin(), rhs.end());
+        free();
+        start = newdata.first;
+        firstFree = newdata.second;
+        cap = newdata.second;
+    }
+    return *this;
+}
+
+StrVec::~StrVec() {
+    free();
+}
 }// namespace CopyControlTest
