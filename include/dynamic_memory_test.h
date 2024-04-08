@@ -9,7 +9,8 @@
 namespace DynamicMemoryTest {
 class StrBlob {
 public:
-    typedef std::vector<std::string>::size_type size_type;
+    //    typedef std::vector<std::string>::size_type size_type;
+    using size_type = std::vector<std::string>::size_type;
 
     StrBlob();
     StrBlob(std::initializer_list<std::string> il);
@@ -22,7 +23,9 @@ public:
 
     // visit element
     std::string& front();
+    const std::string& front() const;
     std::string& back();
+    const std::string& back() const;
 
 private:
     std::shared_ptr<std::vector<std::string>> data;
