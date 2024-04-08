@@ -46,6 +46,27 @@ void StrVec::reallocate() {
     cap = start + newcap;
 }
 
+void StrVec::reallocate(size_t newCap) {
+    auto newdata = strAllocator::allocate(alloc, newCap);
+    auto src = start;
+    auto dst = newdata;
+    for (size_t i = 0; i < size(); ++i) {
+        strAllocator::construct(alloc, dst, std::move(*src));
+        ++dst;
+        ++src;
+    }
+    free();
+    start = newdata;
+    firstFree = dst;
+    cap = start + newCap;
+}
+
+void StrVec::reserve(size_t n) {
+    if (n > capacity()) {
+        reallocate(n);
+    }
+}
+
 void StrVec::free() {
     if (start) {
         auto p = firstFree;
@@ -79,6 +100,13 @@ StrVec& StrVec::operator=(const StrVec& rhs) {
     return *this;
 }
 
+StrVec::StrVec(std::initializer_list<std::string> il) {
+    auto newdata = AllocNCopy(il.begin(), il.end());
+    start = newdata.first;
+    firstFree = newdata.second;
+    cap = newdata.second;
+}
+
 StrVec::~StrVec() {
     free();
 }
@@ -101,8 +129,16 @@ TEST(CopyControlTest, test1) {
     ASSERT_EQ(vec.size(), 3);
     ASSERT_EQ(vec.capacity(), 4);
 
-    for (auto & it : vec) {
+    for (auto& it: vec) {
         std::cout << it << std::endl;
     }
 }
+
+TEST(CopyControlTest, test2) {
+    std::cout << "\ncopy control test2:\n";
+    StrVec vec {"abc", "def", "qaz"};
+    EXPECT_EQ(vec.size(), 3);
+    EXPECT_EQ(vec.capacity(), 3);
+}
+
 }// namespace CopyControlTest
