@@ -2,8 +2,8 @@
 // Created by 赵丹 on 2024/4/1.
 //
 
-#ifndef LEETCODE_PRACTICE_COPY_CONTROL_H
-#define LEETCODE_PRACTICE_COPY_CONTROL_H
+#ifndef LEETCODE_PRACTICE_COPY_CONTROL_TEST_H
+#define LEETCODE_PRACTICE_COPY_CONTROL_TEST_H
 #include "utils.h"
 
 namespace CopyControlTest {
@@ -100,4 +100,4 @@ private:
 };
 }// namespace CopyControlTest
 
-#endif//LEETCODE_PRACTICE_COPY_CONTROL_H
+#endif//LEETCODE_PRACTICE_COPY_CONTROL_TEST_H
