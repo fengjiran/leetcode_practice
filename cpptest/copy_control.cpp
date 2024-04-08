@@ -44,6 +44,26 @@ StrVec& StrVec::operator=(const StrVec& rhs) {
     return *this;
 }
 
+StrVec::StrVec(StrVec&& rhs) noexcept : start(rhs.start), firstFree(rhs.firstFree), cap(rhs.cap) {
+    rhs.start = nullptr;
+    rhs.firstFree = nullptr;
+    rhs.cap = nullptr;
+}
+
+StrVec& StrVec::operator=(StrVec&& rhs) noexcept {
+    if (this != &rhs) {
+        free();
+        start = rhs.start;
+        firstFree = rhs.firstFree;
+        cap = rhs.cap;
+
+        rhs.start = nullptr;
+        rhs.firstFree = nullptr;
+        rhs.cap = nullptr;
+    }
+    return *this;
+}
+
 StrVec::StrVec(std::initializer_list<std::string> il) {
     auto newdata = AllocNCopy(il.begin(), il.end());
     start = newdata.first;

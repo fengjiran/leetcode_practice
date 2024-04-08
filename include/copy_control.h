@@ -59,8 +59,14 @@ public:
     StrVec(std::initializer_list<std::string> il);
     explicit StrVec(size_t n);
     StrVec(size_t n, const std::string&);
+
+    // copy ctor
     StrVec(const StrVec&);
     StrVec& operator=(const StrVec&);
+
+    // move ctor
+    StrVec(StrVec&&) noexcept;
+    StrVec& operator=(StrVec&&) noexcept;
 
     void push_back(const std::string&);
     size_t size() const { return firstFree - start; }
