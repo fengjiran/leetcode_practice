@@ -69,6 +69,7 @@ public:
     StrVec& operator=(StrVec&&) noexcept;
 
     void push_back(const std::string&);
+    void push_back(std::string&&);
     size_t size() const { return firstFree - start; }
     size_t capacity() const { return cap - start; }
     std::string* begin() const { return start; }

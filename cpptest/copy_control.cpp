@@ -97,6 +97,11 @@ void StrVec::push_back(const std::string& s) {
     strAllocator::construct(alloc, firstFree++, s);
 }
 
+void StrVec::push_back(std::string&& s) {
+    CheckAndAlloc();
+    strAllocator::construct(alloc, firstFree++, std::move(s));
+}
+
 void StrVec::reallocate() {
     size_t newcap = size() != 0 ? 2 * size() : 1;
     auto newdata = strAllocator::allocate(alloc, newcap);
