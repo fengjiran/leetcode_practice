@@ -34,15 +34,15 @@ void StrVec::reallocate() {
     size_t newcap = size() != 0 ? 2 * size() : 1;
     auto newdata = alloc.allocate(newcap);
     auto src = start;
-    auto dest = newdata;
+    auto dst = newdata;
     for (size_t i = 0; i < size(); ++i) {
-        alloc.construct(dest, std::move(*src));
-        ++dest;
+        alloc.construct(dst, std::move(*src));
+        ++dst;
         ++src;
     }
     free();
     start = newdata;
-    firstFree = dest;
+    firstFree = dst;
     cap = start + newcap;
 }
 
@@ -52,7 +52,7 @@ void StrVec::free() {
         while (p != start) {
             alloc.destroy(--p);
         }
-        alloc.deallocate(start, cap - firstFree);
+        alloc.deallocate(start, cap - start);
     }
 }
 
