@@ -25,6 +25,53 @@ HasPtrLikePointer::~HasPtrLikePointer() {
     }
 }
 
+// class StrVec
+StrVec::StrVec(const StrVec& rhs) {
+    auto newdata = AllocNCopy(rhs.begin(), rhs.end());
+    start = newdata.first;
+    firstFree = newdata.second;
+    cap = newdata.second;
+}
+
+StrVec& StrVec::operator=(const StrVec& rhs) {
+    if (this != &rhs) {
+        auto newdata = AllocNCopy(rhs.begin(), rhs.end());
+        free();
+        start = newdata.first;
+        firstFree = newdata.second;
+        cap = newdata.second;
+    }
+    return *this;
+}
+
+StrVec::StrVec(std::initializer_list<std::string> il) {
+    auto newdata = AllocNCopy(il.begin(), il.end());
+    start = newdata.first;
+    firstFree = newdata.second;
+    cap = newdata.second;
+}
+
+StrVec::StrVec(size_t n) {
+    auto newdata = strAllocator::allocate(alloc, n);
+    start = newdata;
+    firstFree = newdata;
+    cap = start + n;
+}
+
+StrVec::StrVec(size_t n, const std::string& s) {
+    auto newdata = strAllocator::allocate(alloc, n);
+    start = newdata;
+    firstFree = newdata;
+    cap = start + n;
+    for (size_t i = 0; i < n; ++i) {
+        strAllocator::construct(alloc, firstFree++, s);
+    }
+}
+
+StrVec::~StrVec() {
+    free();
+}
+
 void StrVec::push_back(const std::string& s) {
     CheckAndAlloc();
     strAllocator::construct(alloc, firstFree++, s);
@@ -82,34 +129,26 @@ std::pair<std::string*, std::string*> StrVec::AllocNCopy(const std::string* b, c
     return {data, std::uninitialized_copy(b, e, data)};
 }
 
-StrVec::StrVec(const StrVec& rhs) {
-    auto newdata = AllocNCopy(rhs.begin(), rhs.end());
-    start = newdata.first;
-    firstFree = newdata.second;
-    cap = newdata.second;
-}
-
-StrVec& StrVec::operator=(const StrVec& rhs) {
-    if (this != &rhs) {
-        auto newdata = AllocNCopy(rhs.begin(), rhs.end());
-        free();
-        start = newdata.first;
-        firstFree = newdata.second;
-        cap = newdata.second;
+void StrVec::resize(size_t n) {
+    if (n > size()) {
+        while (size() < n) {
+            push_back("");
+        }
+    } else if (n < size()) {
+        while (size() > n) {
+            strAllocator::destroy(alloc, --firstFree);
+        }
     }
-    return *this;
 }
 
-StrVec::StrVec(std::initializer_list<std::string> il) {
-    auto newdata = AllocNCopy(il.begin(), il.end());
-    start = newdata.first;
-    firstFree = newdata.second;
-    cap = newdata.second;
+void StrVec::resize(size_t n, const std::string& s) {
+    if (n > size()) {
+        while (size() < n) {
+            push_back(s);
+        }
+    }
 }
 
-StrVec::~StrVec() {
-    free();
-}
 
 TEST(CopyControlTest, test1) {
     std::cout << "\ncopy control test1:\n";
@@ -136,9 +175,26 @@ TEST(CopyControlTest, test1) {
 
 TEST(CopyControlTest, test2) {
     std::cout << "\ncopy control test2:\n";
-    StrVec vec {"abc", "def", "qaz"};
+    StrVec vec{"abc", "def", "qaz"};
     EXPECT_EQ(vec.size(), 3);
     EXPECT_EQ(vec.capacity(), 3);
+    vec.reserve(5);
+    EXPECT_EQ(vec.capacity(), 5);
+
+    for (auto& it: vec) {
+        std::cout << it << std::endl;
+    }
+}
+
+TEST(CopyControlTest, test3) {
+    std::cout << "\ncopy control test3:\n";
+    StrVec vec(5);
+    EXPECT_EQ(vec.size(), 0);
+    EXPECT_EQ(vec.capacity(), 5);
+
+    vec.push_back("abc");
+    EXPECT_EQ(vec.size(), 1);
+    EXPECT_EQ(vec.capacity(), 5);
 }
 
 }// namespace CopyControlTest
