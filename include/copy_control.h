@@ -78,7 +78,8 @@ private:
     }
 
 private:
-    static std::allocator<std::string> alloc;
+    using strAllocator = std::allocator_traits<std::allocator<std::string>>;
+    std::allocator<std::string> alloc;
     std::string* start;
     std::string* cap;
     std::string* firstFree;
