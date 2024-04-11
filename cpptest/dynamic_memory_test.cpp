@@ -108,7 +108,16 @@ TEST(DynamicMemoryTest, test1) {
 }
 
 TEST(DynamicMemoryTest, test2) {
-    //
+    std::cout << "\ndynamic memory test2:\n";
+    std::optional<std::string> dir = getFileDir(__FILE__);
+    EXPECT_TRUE(dir.has_value());
+    std::cout << dir.value();
+    std::string file_path = dir.value() + ".." + "/board1.txt";
+    std::ifstream fin;
+    fin.open(file_path, std::ios::in);
+    if (!fin.is_open()) {
+        std::cout << "Can not open the file: " << file_path << std::endl;
+    }
 }
 
 }// namespace DynamicMemoryTest
