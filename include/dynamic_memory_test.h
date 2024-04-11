@@ -44,6 +44,13 @@ private:
     std::map<std::string, std::shared_ptr<std::set<size_type>>> wm;
 };
 
+class QueryResult {
+public:
+private:
+    std::string sought;
+
+};
+
 }// namespace DynamicMemoryTest
 
 #endif//LEETCODE_PRACTICE_DYNAMIC_MEMORY_TEST_H
