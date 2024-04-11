@@ -4,9 +4,8 @@
 
 #ifndef LEETCODE_PRACTICE_DYNAMIC_MEMORY_TEST_H
 #define LEETCODE_PRACTICE_DYNAMIC_MEMORY_TEST_H
-#include <utility>
-
 #include "utils.h"
+#include <utility>
 
 namespace DynamicMemoryTest {
 class StrBlob {
@@ -56,6 +55,7 @@ public:
     TextQuery() = delete;
     explicit TextQuery(std::ifstream& is);
     QueryResult query(const std::string& sought) const;
+
 private:
     std::shared_ptr<std::vector<std::string>> file;
     std::map<std::string, std::shared_ptr<std::set<size_type>>> wm;
