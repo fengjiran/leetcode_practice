@@ -4,6 +4,8 @@
 
 #ifndef LEETCODE_PRACTICE_DYNAMIC_MEMORY_TEST_H
 #define LEETCODE_PRACTICE_DYNAMIC_MEMORY_TEST_H
+#include <utility>
+
 #include "utils.h"
 
 namespace DynamicMemoryTest {
@@ -33,22 +35,30 @@ private:
     void check(size_type i, const std::string& msg) const;
 };
 
+class QueryResult {
+public:
+    using size_type = std::vector<std::string>::size_type;
+    QueryResult(std::string s,
+                std::shared_ptr<std::vector<std::string>> f,
+                std::shared_ptr<std::set<size_type>> p)
+        : sought(std::move(s)), file(std::move(f)), lines(std::move(p)) {}
+
+private:
+    std::string sought;
+    std::shared_ptr<std::vector<std::string>> file;
+    std::shared_ptr<std::set<size_type>> lines;
+    friend std::ostream& print(std::ostream& os, const QueryResult& qr);
+};
+
 class TextQuery {
 public:
     using size_type = std::vector<std::string>::size_type;
     TextQuery() = delete;
     explicit TextQuery(std::ifstream& is);
-
+    QueryResult query(const std::string& sought) const;
 private:
     std::shared_ptr<std::vector<std::string>> file;
     std::map<std::string, std::shared_ptr<std::set<size_type>>> wm;
-};
-
-class QueryResult {
-public:
-private:
-    std::string sought;
-
 };
 
 }// namespace DynamicMemoryTest

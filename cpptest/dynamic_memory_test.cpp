@@ -4,6 +4,31 @@
 #include "dynamic_memory_test.h"
 namespace DynamicMemoryTest {
 
+std::string make_plural(size_t ctr, const std::string& word, const std::string& ending) {
+    return ctr > 1 ? word + ending : word;
+}
+
+std::ostream& print(std::ostream& os, const QueryResult& qr) {
+    os << qr.sought << " occurs " << qr.lines->size() << " "
+       << make_plural(qr.lines->size(), "time", "s") << std::endl;
+
+    for (auto num: *qr.lines) {
+        os << "\t(line " << num + 1 << ") "
+           << *(qr.file->begin() + num) << std::endl;
+    }
+    return os;
+}
+
+void runQueries(std::ifstream& infile) {
+    TextQuery tq(infile);
+    while (true) {
+        std::cout << "Enter word to look for, or q to quit: ";
+        std::string s;
+        if (!(std::cin >> s) || s == "q") break;
+        print(std::cout, tq.query(s)) << std::endl;
+    }
+}
+
 StrBlob::StrBlob() : data(std::make_shared<std::vector<std::string>>()) {}
 
 StrBlob::StrBlob(std::initializer_list<std::string> il) : data(std::make_shared<std::vector<std::string>>(il)) {}
@@ -56,6 +81,17 @@ TextQuery::TextQuery(std::ifstream& is) : file(new std::vector<std::string>) {
     }
 }
 
+QueryResult TextQuery::query(const std::string& sought) const {
+    static std::shared_ptr<std::set<size_type>> nodata(new std::set<size_type>);
+    auto loc = wm.find(sought);
+    if (loc == wm.end()) {
+        return {sought, file, nodata};
+    } else {
+        return {sought, file, loc->second};
+    }
+}
+
+
 TEST(DynamicMemoryTest, test1) {
     std::cout << "\ndynamic memory test1:\n";
     StrBlob b1;
@@ -71,5 +107,8 @@ TEST(DynamicMemoryTest, test1) {
     std::cout << b3.front() << " " << b3.back() << std::endl;
 }
 
+TEST(DynamicMemoryTest, test2) {
+    //
+}
 
 }// namespace DynamicMemoryTest
