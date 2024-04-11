@@ -19,6 +19,7 @@ public:
 
     // add and delete element
     void push_back(const std::string& t) { data->push_back(t); }
+    void push_back(std::string&& t) { data->push_back(t); }
     void pop_back();
 
     // visit element
