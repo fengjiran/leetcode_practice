@@ -32,6 +32,18 @@ private:
     std::shared_ptr<std::vector<std::string>> data;
     void check(size_type i, const std::string& msg) const;
 };
+
+class TextQuery {
+public:
+    using size_type = std::vector<std::string>::size_type;
+    TextQuery() = delete;
+    explicit TextQuery(std::ifstream& is);
+
+private:
+    std::shared_ptr<std::vector<std::string>> file;
+    std::map<std::string, std::shared_ptr<std::set<size_type>>> wm;
+};
+
 }// namespace DynamicMemoryTest
 
 #endif//LEETCODE_PRACTICE_DYNAMIC_MEMORY_TEST_H

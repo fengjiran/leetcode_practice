@@ -39,6 +39,23 @@ const std::string& StrBlob::back() const {
     return data->back();
 }
 
+TextQuery::TextQuery(std::ifstream& is) : file(new std::vector<std::string>) {
+    std::string text;
+    while (getline(is, text)) {
+        file->push_back(text);
+        size_type n = file->size() - 1;
+        std::istringstream line(text);
+        std::string word;
+        while (line >> word) {
+            auto& lines = wm[word];
+            if (!lines) {
+                lines.reset(new std::set<size_type>);
+            }
+            lines->insert(n);
+        }
+    }
+}
+
 TEST(DynamicMemoryTest, test1) {
     std::cout << "\ndynamic memory test1:\n";
     StrBlob b1;
