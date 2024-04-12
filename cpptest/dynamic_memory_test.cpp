@@ -109,10 +109,9 @@ TEST(DynamicMemoryTest, test1) {
 
 TEST(DynamicMemoryTest, test2) {
     std::cout << "\ndynamic memory test2:\n";
-    std::optional<std::string> dir = getFileDir(__FILE__);
-    EXPECT_TRUE(dir.has_value());
-    std::cout << dir.value();
-    std::string file_path = dir.value() + ".." + "/board1.txt";
+    namespace fs = std::filesystem;
+    fs::path parentPath = fs::current_path().parent_path();
+    fs::path file_path = parentPath.string() + "/test_files/temu.txt";
     std::ifstream fin;
     fin.open(file_path, std::ios::in);
     if (!fin.is_open()) {
