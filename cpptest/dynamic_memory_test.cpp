@@ -114,9 +114,13 @@ TEST(DynamicMemoryTest, test2) {
     fs::path file_path = parentPath.string() + "/test_files/temu.txt";
     std::ifstream fin;
     fin.open(file_path, std::ios::in);
-    if (!fin.is_open()) {
-        std::cout << "Can not open the file: " << file_path << std::endl;
-    }
+    EXPECT_TRUE(fin.is_open())
+            << "Can not open the file: " << file_path << std::endl;
+    //    if (!fin.is_open()) {
+    //        std::cout << "Can not open the file: " << file_path << std::endl;
+    //    }
+
+//    runQueries(fin);
 }
 
 }// namespace DynamicMemoryTest
