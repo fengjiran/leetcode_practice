@@ -21,12 +21,7 @@ std::ostream& print(std::ostream& os, const QueryResult& qr) {
 
 void runQueries(std::ifstream& infile) {
     TextQuery tq(infile);
-    while (true) {
-        std::cout << "Enter word to look for, or q to quit: ";
-        std::string s;
-        if (!(std::cin >> s) || s == "q") break;
-        print(std::cout, tq.query(s)) << std::endl;
-    }
+    print(std::cout, tq.query("Temu")) << std::endl;
 }
 
 StrBlob::StrBlob() : data(std::make_shared<std::vector<std::string>>()) {}
@@ -116,11 +111,8 @@ TEST(DynamicMemoryTest, test2) {
     fin.open(file_path, std::ios::in);
     EXPECT_TRUE(fin.is_open())
             << "Can not open the file: " << file_path << std::endl;
-    //    if (!fin.is_open()) {
-    //        std::cout << "Can not open the file: " << file_path << std::endl;
-    //    }
-
-//    runQueries(fin);
+    runQueries(fin);
+    fin.close();
 }
 
 }// namespace DynamicMemoryTest
