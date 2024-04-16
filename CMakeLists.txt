@@ -7,6 +7,8 @@ IF (CMAKE_SYSTEM_NAME MATCHES "Linux")
     message(STATUS "Current Platform: Linux ")
     set(GTEST_INCLUDE /home/richard/project/googletest/googletest/include)
     set(GTEST_LIB /home/richard/project/googletest/build/lib/libgtest.a)
+    set(ARMADILLO_INCLUDE /home/richard/project/armadillo-12.8.1/include)
+    set(ARMADILLO_LIB /home/richard/project/armadillo-12.8.1/build/libarmadillo.so)
 ELSEIF (CMAKE_SYSTEM_NAME MATCHES "Darwin")
     message(STATUS "Current Platform: MacOS")
     set(GTEST_INCLUDE /Users/richard/Desktop/googletest/googletest/include)
@@ -25,6 +27,7 @@ add_executable(${PROJECT_NAME} ${SRC_FILES})
 include_directories(
         ${PROJECT_SOURCE_DIR}/include
         ${GTEST_INCLUDE}
+        ${ARMADILLO_INCLUDE}
 )
 
-target_link_libraries(${PROJECT_NAME} ${GTEST_LIB} pthread)
+target_link_libraries(${PROJECT_NAME} ${GTEST_LIB} ${ARMADILLO_LIB} pthread)
