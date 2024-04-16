@@ -17,6 +17,7 @@ TEST(TemplateTest, test1) {
     std::cout << myMax(3, 7) << std::endl;
     std::cout << myMax(3.0, 7.0) << std::endl;
     std::cout << myMax('g', 'e') << std::endl;
+    std::cout << compare("hello", "world") << std::endl;
 }
 
 TEST(TemplateTest, test2) {
