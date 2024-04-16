@@ -20,6 +20,17 @@ int compare(const T& v1, const T& v2, F f = F()) {
     return 0;
 }
 
+template<typename T>
+std::ostream& print(std::ostream& os, const T& t) {
+    return os << t;
+}
+
+template<typename T, typename... Args>
+std::ostream& print(std::ostream& os, const T& t, const Args&... args) {
+    os << t << ", ";
+    return print(os, args...);
+}
+
 class DebugDelete {
 public:
     explicit DebugDelete(std::ostream& s = std::cerr) : os(s) {}

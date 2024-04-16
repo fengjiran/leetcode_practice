@@ -35,4 +35,12 @@ TEST(TemplateTest, test3) {
     DebugDelete()(ip);
 }
 
+TEST(TemplateTest, test4) {
+    std::cout << "\nTemplateTest_test4:\n";
+    int i = 0;
+    double d = 3.14;
+    std::string s = "how now brown cow";
+    print(std::cout, i, d, s, 42);
+}
+
 }// namespace TemplateTest
