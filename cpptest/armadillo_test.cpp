@@ -7,14 +7,15 @@
 namespace ArmadilloTest {
 
 TEST(ArmadilloTest, test1) {
-    std::cout << "\nArmadilloTest test1:\n";
+    LOG(INFO) << "\nArmadilloTest test1:";
+//    std::cout << "\nArmadilloTest test1:\n";
     arma::mat A(4, 5, arma::fill::randu);
     arma::mat B(4, 5, arma::fill::randu);
     std::cout << A * B.t() << std::endl;
 }
 
 TEST(ArmadilloTest, test2) {
-    std::cout << "\nArmadilloTest test_add:\n";
+    std::cout << "\nArmadilloTest add:\n";
     arma::fmat mat1 = "1,2,3;"
                       "4,5,6;"
                       "7,8,9";
@@ -31,7 +32,7 @@ TEST(ArmadilloTest, test2) {
 }
 
 TEST(ArmadilloTest, test3) {
-    std::cout << "\nArmadilloTest test_sub:\n";
+    std::cout << "\nArmadilloTest sub:\n";
     arma::fmat mat1 = "1,2,3;"
                       "4,5,6;"
                       "7,8,9";

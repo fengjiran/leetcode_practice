@@ -37,7 +37,7 @@ public:
 
     template<typename T>
     void operator()(T* p) const {
-        os << "Delete unique_ptr.\n";
+        //        os << "Delete unique_ptr.\n";
         delete p;
     }
 

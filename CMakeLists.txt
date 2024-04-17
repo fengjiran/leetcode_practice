@@ -19,6 +19,8 @@ ELSE ()
     message(STATUS "Other Platform: ${CMAKE_SYSTEM_NAME}")
 ENDIF (CMAKE_SYSTEM_NAME MATCHES "Linux")
 
+find_package(glog REQUIRED)
+
 file(GLOB_RECURSE SRC_FILES
         ${PROJECT_SOURCE_DIR}/solutions/*.cpp
         ${PROJECT_SOURCE_DIR}/cpptest/*.cpp
@@ -32,4 +34,9 @@ include_directories(
         ${ARMADILLO_INCLUDE}
 )
 
-target_link_libraries(${PROJECT_NAME} ${GTEST_LIB} ${ARMADILLO_LIB} blas pthread)
+target_link_libraries(${PROJECT_NAME}
+        ${GTEST_LIB}
+        ${ARMADILLO_LIB}
+        glog::glog
+        blas
+        pthread)
