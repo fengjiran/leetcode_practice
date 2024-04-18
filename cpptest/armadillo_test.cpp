@@ -7,7 +7,7 @@
 namespace ArmadilloTest {
 
 TEST(ArmadilloTest, test1) {
-    LOG(INFO) << "\nArmadilloTest test1:";
+    LOG(INFO) << "ArmadilloTest test1:";
 //    std::cout << "\nArmadilloTest test1:\n";
     arma::mat A(4, 5, arma::fill::randu);
     arma::mat B(4, 5, arma::fill::randu);
