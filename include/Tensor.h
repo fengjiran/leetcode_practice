@@ -19,7 +19,7 @@ public:
      */
     Tensor() = default;
 
-    /*
+    /**
      * @brief Construct a 1D Tensor.
      *
      * @param size vector size
