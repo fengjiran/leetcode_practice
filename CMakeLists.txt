@@ -32,4 +32,4 @@ include_directories(
         ${ARMADILLO_INCLUDE}
 )
 
-target_link_libraries(${PROJECT_NAME} ${GTEST_LIB} ${ARMADILLO_LIB} pthread)
+target_link_libraries(${PROJECT_NAME} ${GTEST_LIB} ${ARMADILLO_LIB} blas pthread)
