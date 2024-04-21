@@ -6,5 +6,10 @@
 #define LEETCODE_PRACTICE_ARMADILLO_TEST_H
 
 #include <armadillo>
+#include "utils.h"
+
+namespace ArmadilloTest {
+
+}
 
 #endif//LEETCODE_PRACTICE_ARMADILLO_TEST_H
