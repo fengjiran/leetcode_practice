@@ -26,6 +26,32 @@ public:
      */
     explicit Tensor(uint32_t size);
 
+    /**
+     * @brief Construct a 2D tensor
+     *
+     * @param rows number of rows
+     * @param cols number of cols
+     */
+     Tensor(uint32_t rows, uint32_t cols);
+
+     /**
+      * @brief Construct a 3D tensor
+      *
+      * @param channels number of channels
+      * @param rows number of rows
+      * @param cols number of cols
+      */
+      Tensor(uint32_t channels, uint32_t rows, uint32_t cols);
+
+      /**
+       * @brief Construct a tensor with shape
+       *
+       * @param shape tensor dimension
+       */
+       explicit Tensor(const std::vector<uint32_t>& shape);
+
+
+
 private:
     /// Raw tensor dimensions
     std::vector<uint32_t> rawDims_;
