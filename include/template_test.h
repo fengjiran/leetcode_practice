@@ -31,6 +31,11 @@ std::ostream& print(std::ostream& os, const T& t, const Args&... args) {
     return print(os, args...);
 }
 
+template<typename T>
+void func(const T&& param) {
+    std::cout << param << std::endl;
+}
+
 class DebugDelete {
 public:
     explicit DebugDelete(std::ostream& s = std::cerr) : os(s) {}

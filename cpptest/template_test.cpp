@@ -44,4 +44,9 @@ TEST(TemplateTest, test4) {
     print(std::cout, i, d, s, 42);
 }
 
+TEST(TemplateTest, test5) {
+    std::cout << "\nTemplateTest_test5:\n";
+    func(5);
+}
+
 }// namespace TemplateTest
