@@ -109,5 +109,34 @@ Tensor<T>::Tensor(T* rawPtr, const std::vector<uint32_t>& shape) {
     }
 }
 
+template<typename T>
+void Tensor<T>::Fill(T value) {
+    CHECK(!data_.empty()) << "The data area of the tensor is empty.";
+    data_.fill(value);
+}
+
+template<typename T>
+const std::vector<uint32_t>& Tensor<T>::GetRawShape() const {
+    CHECK(!rawDims_.empty());
+    CHECK_LE(rawDims_.size(), 3);
+    CHECK_GE(rawDims_.size(), 1);
+    return rawDims_;
+}
+
+template<typename T>
+uint32_t Tensor<T>::GetChannels() const {
+    CHECK(!data_.empty()) << "The data area of the tensor is empty.";
+    return data_.n_slices;
+}
+
+template<typename T>
+void Tensor<T>::Show() {
+    for (uint32_t i = 0; i < GetChannels(); ++i) {
+        LOG(INFO) << "Channel: " << i
+                  << "\n"
+                  << data_.slice(i);
+    }
+}
+
 template class Tensor<float>;
 }// namespace InferEngine

@@ -85,6 +85,32 @@ public:
      */
     Tensor(T* rawPtr, const std::vector<uint32_t>& shape);
 
+    /**
+     * @brief Fills tensor with value
+     *
+     * @param value Fill value
+     */
+    void Fill(T value);
+
+    /**
+     * @brief Get raw tensor shape
+     *
+     *@return Raw tensor dimensions
+     */
+    const std::vector<uint32_t>& GetRawShape() const;
+
+    /**
+     *@brief Print tensor
+     */
+    void Show();
+
+    /**
+     * @brief Get number of tensor channels
+     *
+     * @return Number of tensor channels
+     */
+    uint32_t GetChannels() const;
+
 private:
     /// Raw tensor dimensions
     std::vector<uint32_t> rawDims_;
