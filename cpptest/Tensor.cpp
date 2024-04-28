@@ -110,6 +110,30 @@ Tensor<T>::Tensor(T* rawPtr, const std::vector<uint32_t>& shape) {
 }
 
 template<typename T>
+Tensor<T>::Tensor(const Tensor<T>& rhs) : data_(rhs.data_), rawDims_(rhs.rawDims_) {}
+
+template<typename T>
+Tensor<T>& Tensor<T>::operator=(const Tensor<T>& rhs) {
+    if (this != &rhs) {
+        data_ = rhs.data_;
+        rawDims_ = rhs.rawDims_;
+    }
+    return *this;
+}
+
+template<typename T>
+Tensor<T>::Tensor(Tensor<T>&& rhs) noexcept : rawDims_(std::move(rhs.rawDims_)), data_(std::move(rhs.data_)) {}
+
+template<typename T>
+Tensor<T>& Tensor<T>::operator=(Tensor<T>&& rhs) noexcept {
+    if (this != &rhs) {
+        data_ = std::move(rhs.data_);
+        rawDims_ = std::move(rhs.rawDims_);
+    }
+    return *this;
+}
+
+template<typename T>
 void Tensor<T>::Fill(T value) {
     CHECK(!data_.empty()) << "The data area of the tensor is empty.";
     data_.fill(value);
@@ -121,6 +145,12 @@ const std::vector<uint32_t>& Tensor<T>::GetRawShape() const {
     CHECK_LE(rawDims_.size(), 3);
     CHECK_GE(rawDims_.size(), 1);
     return rawDims_;
+}
+
+template<typename T>
+std::vector<uint32_t> Tensor<T>::GetShape() const {
+    CHECK(!data_.empty()) << "The data area of the tensor is empty.";
+    return {GetChannels(), GetRows(), GetCols()};
 }
 
 template<typename T>
@@ -151,6 +181,11 @@ template<typename T>
 size_t Tensor<T>::GetPlaneSize() const {
     CHECK(!data_.empty()) << "The data area of the tensor is empty.";
     return GetCols() * GetCols();
+}
+
+template<typename T>
+bool Tensor<T>::empty() const {
+    return data_.empty();
 }
 
 template<typename T>

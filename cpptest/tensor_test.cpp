@@ -16,7 +16,7 @@ TEST(TensorTest, init1D) {
 }
 
 TEST(TensorTest, init2D) {
-    Tensor<float> f1(4, 4);
+    Tensor<float> f1(5, 5);
     f1.Fill(1.0);
     LOG(INFO) << "--------------------Tensor2D--------------------";
     LOG(INFO) << "raw shape size: " << f1.GetRawShape().size();
@@ -24,6 +24,8 @@ TEST(TensorTest, init2D) {
     uint32_t cols = f1.GetRawShape()[1];
     LOG(INFO) << "data rows: " << rows;
     LOG(INFO) << "data cols: " << cols;
+    LOG(INFO) << "data size: " << f1.GetSize();
+    LOG(INFO) << "data plane size: " << f1.GetPlaneSize();
     f1.Show();
 }
 }// namespace InferEngine

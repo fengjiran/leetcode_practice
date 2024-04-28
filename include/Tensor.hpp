@@ -86,6 +86,26 @@ public:
     Tensor(T* rawPtr, const std::vector<uint32_t>& shape);
 
     /**
+     * @brief Copy constructor
+     */
+    Tensor(const Tensor& rhs);
+
+    /**
+     * @brief Copy assignment
+     */
+    Tensor& operator=(const Tensor& rhs);
+
+    /**
+     * @brief Move constructor
+     */
+    Tensor(Tensor&& rhs) noexcept;
+
+    /**
+     * @brief Move assignment
+     */
+    Tensor& operator=(Tensor&& rhs) noexcept;
+
+    /**
      * @brief Fills tensor with value
      *
      * @param value Fill value
@@ -98,6 +118,13 @@ public:
      *@return Raw tensor dimensions
      */
     const std::vector<uint32_t>& GetRawShape() const;
+
+    /**
+     * @brief Get raw tensor shape
+     *
+     *@return Raw tensor dimensions
+     */
+    std::vector<uint32_t> GetShape() const;
 
     /**
      *@brief Print tensor
@@ -138,6 +165,13 @@ public:
      * @return Total actually number of elements
      */
     size_t GetPlaneSize() const;
+
+    /**
+     * @brief Checks if tensor is empty
+     *
+     * @return True if empty, false otherwise
+     */
+    bool empty() const;
 
 private:
     /// Raw tensor dimensions
