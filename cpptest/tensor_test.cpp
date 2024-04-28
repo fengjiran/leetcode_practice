@@ -28,4 +28,29 @@ TEST(TensorTest, init2D) {
     LOG(INFO) << "data plane size: " << f1.GetPlaneSize();
     f1.Show();
 }
+
+TEST(TensorTest, copyCtor) {
+    Tensor<float> f1(5, 5);
+    f1.Fill(2.0);
+
+    Tensor<float> f2(f1);
+    Tensor<float> f3 = f1;
+    f1.Show();
+    f2.Show();
+    f3.Show();
+}
+
+TEST(TensorTest, moveCtor) {
+    Tensor<float> f1(5, 5);
+    f1.Fill(3.0);
+
+    Tensor<float> f2(std::move(f1));
+    CHECK(f1.empty());
+    f2.Show();
+
+    Tensor<float> f3 = std::move(f2);
+    CHECK(f2.empty());
+    f3.Show();
+}
+
 }// namespace InferEngine
