@@ -113,6 +113,14 @@ public:
     void Fill(T value);
 
     /**
+     * @brief Fills tensor with vector data
+     *
+     * @param values Fill value
+     * @param rowMajor Fill by row major order
+     */
+    void Fill(const std::vector<T>& values, bool rowMajor = true);
+
+    /**
      * @brief Get raw tensor shape
      *
      *@return Raw tensor dimensions
@@ -172,6 +180,79 @@ public:
      * @return True if empty, false otherwise
      */
     bool empty() const;
+
+    /**
+     * @brief Set the tensor data
+     *
+     * @param data Data to set
+     */
+    void SetData(const arma::Cube<T>& data);
+
+    /**
+     * @brief Get the element reference at offset
+     *
+     * @param offset Element offset
+     * @return Element reference
+     */
+    T& index(uint32_t offset);
+
+    /**
+     * @brief Get the element reference at offset
+     *
+     * @param offset Element offset
+     * @return Element value
+     */
+    const T& index(uint32_t offset) const;
+
+    /**
+     * @brief Get the tensor data
+     *
+     * @return Tensor data reference
+     */
+    arma::Cube<T>& data();
+
+    /**
+     * @brief Get the tensor data
+     *
+     * @return Tensor data const reference
+     */
+    const arma::Cube<T>& data() const;
+
+    /**
+     * @brief Get the channel matrix
+     *
+     * @param channel Channel index
+     * @return Channel matrix reference
+     */
+    arma::Mat<T>& slice(uint32_t channel);
+
+    /**
+     * @brief Get the channel matrix const reference
+     *
+     * @param channel Channel index
+     * @return Channel matrix const reference
+     */
+    const arma::Mat<T>& slice(uint32_t channel) const;
+
+    /**
+     * @brief Get the element at location
+     *
+     * @param channel Channel index
+     * @param row Row index
+     * @param col Col index
+     * @return Element at location
+     */
+    T& at(uint32_t channel, uint32_t row, uint32_t col);
+
+    /**
+     * @brief Get the element ref at location
+     *
+     * @param channel Channel index
+     * @param row Row index
+     * @param col Col index
+     * @return Element ref at location
+     */
+    const T& at(uint32_t channel, uint32_t row, uint32_t col) const;
 
 private:
     /// Raw tensor dimensions

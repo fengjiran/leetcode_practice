@@ -140,6 +140,15 @@ void Tensor<T>::Fill(T value) {
 }
 
 template<typename T>
+void Tensor<T>::Fill(const std::vector<T>& values, bool rowMajor) {
+    CHECK(!data_.empty()) << "The data area of the tensor is empty.";
+    CHECK_EQ(values.size(), data_.size());
+    if (rowMajor) {
+        //
+    }
+}
+
+template<typename T>
 const std::vector<uint32_t>& Tensor<T>::GetRawShape() const {
     CHECK(!rawDims_.empty());
     CHECK_LE(rawDims_.size(), 3);
@@ -186,6 +195,64 @@ size_t Tensor<T>::GetPlaneSize() const {
 template<typename T>
 bool Tensor<T>::empty() const {
     return data_.empty();
+}
+
+template<typename T>
+void Tensor<T>::SetData(const arma::Cube<T>& data) {
+    CHECK(data.n_rows == data_.n_rows) << data.n_rows << " != " << data_.n_rows;
+    CHECK(data.n_cols == data_.n_cols) << data.n_cols << " != " << data_.n_cols;
+    CHECK(data.n_slices == data_.n_slices) << data.n_slices << " != " << data_.n_slices;
+    data_ = data;
+}
+
+template<typename T>
+T& Tensor<T>::index(uint32_t offset) {
+    CHECK(offset < data_.size()) << "Tensor index out of bound";
+    return data_.at(offset);
+}
+
+template<typename T>
+const T& Tensor<T>::index(uint32_t offset) const {
+    CHECK(offset < data_.size()) << "Tensor index out of bound";
+    return data_.at(offset);
+}
+
+template<typename T>
+arma::Cube<T>& Tensor<T>::data() {
+    return data_;
+}
+
+template<typename T>
+const arma::Cube<T>& Tensor<T>::data() const {
+    return data_;
+}
+
+template<typename T>
+arma::Mat<T>& Tensor<T>::slice(uint32_t channel) {
+    CHECK_LT(channel, GetChannels());
+    return data_.slice(channel);
+}
+
+template<typename T>
+const arma::Mat<T>& Tensor<T>::slice(uint32_t channel) const {
+    CHECK_LT(channel, GetChannels());
+    return data_.slice(channel);
+}
+
+template<typename T>
+T& Tensor<T>::at(uint32_t channel, uint32_t row, uint32_t col) {
+    CHECK_LT(channel, GetChannels());
+    CHECK_LT(row, GetRows());
+    CHECK_LT(col, GetCols());
+    return data_.at(row, col, channel);
+}
+
+template<typename T>
+const T& Tensor<T>::at(uint32_t channel, uint32_t row, uint32_t col) const {
+    CHECK_LT(channel, GetChannels());
+    CHECK_LT(row, GetRows());
+    CHECK_LT(col, GetCols());
+    return data_.at(row, col, channel);
 }
 
 template<typename T>
