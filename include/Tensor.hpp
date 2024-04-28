@@ -111,6 +111,34 @@ public:
      */
     uint32_t GetChannels() const;
 
+    /**
+     * @brief Get number of rows
+     *
+     * @return Number of tensor rows
+     */
+    uint32_t GetRows() const;
+
+    /**
+     * @brief Get number of cols
+     *
+     * @return Number of tensor cols
+     */
+    uint32_t GetCols() const;
+
+    /**
+     * @brief Gets total number of elements
+     *
+     * @return Total number of elements
+     */
+    size_t GetSize() const;
+
+    /**
+     * @brief Gets actually total number of elements
+     *
+     * @return Total actually number of elements
+     */
+    size_t GetPlaneSize() const;
+
 private:
     /// Raw tensor dimensions
     std::vector<uint32_t> rawDims_;

@@ -130,6 +130,30 @@ uint32_t Tensor<T>::GetChannels() const {
 }
 
 template<typename T>
+uint32_t Tensor<T>::GetRows() const {
+    CHECK(!data_.empty()) << "The data area of the tensor is empty.";
+    return data_.n_rows;
+}
+
+template<typename T>
+uint32_t Tensor<T>::GetCols() const {
+    CHECK(!data_.empty()) << "The data area of the tensor is empty.";
+    return data_.n_cols;
+}
+
+template<typename T>
+size_t Tensor<T>::GetSize() const {
+    CHECK(!data_.empty()) << "The data area of the tensor is empty.";
+    return data_.size();
+}
+
+template<typename T>
+size_t Tensor<T>::GetPlaneSize() const {
+    CHECK(!data_.empty()) << "The data area of the tensor is empty.";
+    return GetCols() * GetCols();
+}
+
+template<typename T>
 void Tensor<T>::Show() {
     for (uint32_t i = 0; i < GetChannels(); ++i) {
         LOG(INFO) << "Channel: " << i
@@ -139,4 +163,6 @@ void Tensor<T>::Show() {
 }
 
 template class Tensor<float>;
+template class Tensor<uint32_t>;
+template class Tensor<uint8_t>;
 }// namespace InferEngine
