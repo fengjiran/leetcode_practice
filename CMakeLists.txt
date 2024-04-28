@@ -19,8 +19,6 @@ ELSE ()
     message(STATUS "Other Platform: ${CMAKE_SYSTEM_NAME}")
 ENDIF (CMAKE_SYSTEM_NAME MATCHES "Linux")
 
-set(ARMADILLO_LIB /usr/local/lib/libarmadillo.dylib)
-
 find_package(glog REQUIRED)
 find_package(GTest REQUIRED)
 find_package(Armadillo REQUIRED)
@@ -35,7 +33,6 @@ add_executable(${PROJECT_NAME} ${SRC_FILES})
 
 include_directories(
         ${PROJECT_SOURCE_DIR}/include
-        #        ${ARMADILLO_INCLUDE}
 )
 
 target_link_libraries(${PROJECT_NAME}
@@ -43,6 +40,5 @@ target_link_libraries(${PROJECT_NAME}
         glog::glog
         blas
         pthread
-        ${ARMADILLO_LIB}
-#        armadillo
+        armadillo
 )
