@@ -254,6 +254,35 @@ public:
      */
     const T& at(uint32_t channel, uint32_t row, uint32_t col) const;
 
+    /**
+     * @brief Padding the tensor
+     *
+     * @param pads Padding amount for dimensions, the length must be 4
+     * @param value Padding value
+     */
+    void Padding(const std::vector<uint32_t>& pads, T value);
+
+    /**
+     * @brief Fill with ones
+     */
+    void Ones();
+
+    /**
+     * @brief Initialize with normal distribution
+     *
+     * @param mean Mean
+     * @param var Variance
+     */
+    void RandN(T mean = 0, T var = 1);
+
+    /**
+     * @brief Initialize with uniform distribution
+     *
+     * @param min Minimum value
+     * @param max Maximum value
+     */
+    void RandU(T min = 0, T max = 1);
+
 private:
     /// Raw tensor dimensions
     std::vector<uint32_t> rawDims_;

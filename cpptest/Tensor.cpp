@@ -100,6 +100,7 @@ Tensor<T>::Tensor(T* rawPtr, const std::vector<uint32_t>& shape) {
     uint32_t cols = shape_[2];
 
     data_ = arma::Cube<T>(rawPtr, rows, cols, channels, false, true);
+
     if (channels == 1 && rows == 1) {
         rawDims_ = std::vector<uint32_t>{cols};
     } else if (channels == 1) {
@@ -144,7 +145,13 @@ void Tensor<T>::Fill(const std::vector<T>& values, bool rowMajor) {
     CHECK(!data_.empty()) << "The data area of the tensor is empty.";
     CHECK_EQ(values.size(), data_.size());
     if (rowMajor) {
-        //
+        uint32_t planes = GetPlaneSize();
+        for (uint32_t i = 0; i < GetChannels(); ++i) {
+            arma::Mat<T> slice(const_cast<T*>(values.data()) + i * planes, GetCols(), GetRows(), false, true);
+            data_.slice(i) = slice.t();
+        }
+    } else {
+        std::copy(values.begin(), values.end(), data_.memptr());
     }
 }
 
@@ -253,6 +260,87 @@ const T& Tensor<T>::at(uint32_t channel, uint32_t row, uint32_t col) const {
     CHECK_LT(row, GetRows());
     CHECK_LT(col, GetCols());
     return data_.at(row, col, channel);
+}
+
+template<typename T>
+void Tensor<T>::Padding(const std::vector<uint32_t>& pads, T value) {
+    CHECK(!data_.empty()) << "The data area of the tensor is empty.";
+    CHECK_EQ(pads.size(), 4);
+    uint32_t up = pads[0];
+    uint32_t bottom = pads[1];
+    uint32_t left = pads[2];
+    uint32_t right = pads[3];
+
+    arma::Cube<T> newData(data_.n_rows + up + bottom,
+                          data_.n_cols + left + right,
+                          data_.n_slices);
+    newData.fill(value);
+    newData.subcube(up,
+                    left,
+                    0,
+                    newData.n_rows - bottom - 1,
+                    newData.n_cols - right - 1,
+                    newData.n_slices - 1) = data_;
+    data_ = std::move(newData);
+    rawDims_ = std::vector<uint32_t>{GetChannels(), GetRows(), GetCols()};
+}
+
+template<typename T>
+void Tensor<T>::Ones() {
+    CHECK(!data_.empty()) << "The data area of the tensor is empty.";
+    Fill(static_cast<T>(1));
+}
+
+template<>
+void Tensor<float>::RandN(float mean, float var) {
+    CHECK(!data_.empty()) << "The data area of the tensor is empty.";
+    std::random_device rd;
+    std::mt19937 mt(rd());
+    std::normal_distribution<float> dist(mean, var);
+    for (size_t i = 0; i < GetSize(); ++i) {
+        index(i) = dist(mt);
+    }
+}
+
+template<>
+void Tensor<int32_t>::RandU(int32_t min, int32_t max) {
+    CHECK(!data_.empty()) << "The data area of the tensor is empty.";
+    std::random_device rd;
+    std::mt19937 mt(rd());
+    std::uniform_int_distribution<int32_t> dist(min, max);
+    for (size_t i = 0; i < GetSize(); ++i) {
+        index(i) = dist(mt);
+    }
+}
+
+template<>
+void Tensor<uint8_t>::RandU(uint8_t min, uint8_t max) {
+    CHECK(!data_.empty()) << "The data area of the tensor is empty.";
+    std::random_device rd;
+    std::mt19937 mt(rd());
+#ifdef _MSC_VER
+    std::uniform_int_distribution<int32_t> dist(min, max);
+    for (uin32_t i = 0; i < GetSize(); ++i) {
+        index(i) = dist(mt) % std::numeric_limits<uint8_t>::max();
+    }
+#else
+    std::uniform_int_distribution<uint8_t> dist(min, max);
+    for (size_t i = 0; i < GetSize(); ++i) {
+        index(i) = dist(mt);
+    }
+#endif
+}
+
+template<>
+void Tensor<float>::RandU(float min, float max) {
+    CHECK(!data_.empty()) << "The data area of the tensor is empty.";
+    CHECK(min <= max);
+    std::random_device rd;
+    std::mt19937 mt(rd());
+    std::uniform_real_distribution<float> dist(min, max);
+    for (size_t i = 0; i < GetSize(); ++i) {
+        index(i) = dist(mt);
+    }
 }
 
 template<typename T>
