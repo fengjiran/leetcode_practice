@@ -283,6 +283,13 @@ public:
      */
     void RandU(T min = 0, T max = 1);
 
+    /**
+     * @brief Get the raw data pointer
+     *
+     * @return Raw data pointer
+     */
+    T* RawPtr();
+
 private:
     /// Raw tensor dimensions
     std::vector<uint32_t> rawDims_;
