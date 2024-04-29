@@ -344,6 +344,32 @@ void Tensor<float>::RandU(float min, float max) {
 }
 
 template<typename T>
+T* Tensor<T>::RawPtr() {
+    CHECK(!data_.empty()) << "The data area of the tensor is empty.";
+    return data_.memptr();
+}
+
+template<typename T>
+const T* Tensor<T>::RawPtr() const {
+    CHECK(!data_.empty()) << "The data area of the tensor is empty.";
+    return data_.memptr();
+}
+
+template<typename T>
+T* Tensor<T>::RawPtr(uint32_t offset) {
+    CHECK(!data_.empty()) << "The data area of the tensor is empty.";
+    CHECK_LT(offset, GetSize());
+    return data_.memptr() + offset;
+}
+
+template<typename T>
+const T* Tensor<T>::RawPtr(uint32_t offset) const {
+    CHECK(!data_.empty()) << "The data area of the tensor is empty.";
+    CHECK_LT(offset, GetSize());
+    return data_.memptr() + offset;
+}
+
+template<typename T>
 void Tensor<T>::Show() {
     for (uint32_t i = 0; i < GetChannels(); ++i) {
         LOG(INFO) << "Channel: " << i

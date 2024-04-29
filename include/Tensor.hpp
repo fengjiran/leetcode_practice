@@ -290,6 +290,27 @@ public:
      */
     T* RawPtr();
 
+    /**
+     * @brief Get the const raw data pointer
+     *
+     * @return Const raw data pointer
+     */
+    const T* RawPtr() const;
+
+    /**
+     * @brief Get the raw data pointer with offset
+     *
+     * @return Raw data pointer + offset
+     */
+    T* RawPtr(uint32_t offset);
+
+    /**
+     * @brief Get the const raw data pointer with offset
+     *
+     * @return Raw data pointer + offset
+     */
+    const T* RawPtr(uint32_t offset) const;
+
 private:
     /// Raw tensor dimensions
     std::vector<uint32_t> rawDims_;
