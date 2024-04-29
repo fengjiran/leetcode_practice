@@ -7,20 +7,23 @@ IF (CMAKE_SYSTEM_NAME MATCHES "Linux")
     message(STATUS "Current Platform: Linux ")
     #    set(GTEST_INCLUDE /home/richard/project/googletest/googletest/include)
     #    set(GTEST_LIB /home/richard/project/googletest/build/lib/libgtest.a)
-    set(ARMADILLO_INCLUDE /home/richard/project/armadillo-12.8.1/include)
-    set(ARMADILLO_LIB /home/richard/project/armadillo-12.8.1/build/libarmadillo.so)
+    #    set(ARMADILLO_INCLUDE /home/richard/project/armadillo-12.8.1/include)
+    #    set(ARMADILLO_LIB /home/richard/project/armadillo-12.8.1/build/libarmadillo.so)
 ELSEIF (CMAKE_SYSTEM_NAME MATCHES "Darwin")
     message(STATUS "Current Platform: MacOS")
     #    set(GTEST_INCLUDE /Users/richard/Desktop/googletest/googletest/include)
     #    set(GTEST_LIB /Users/richard/Desktop/googletest/build/lib/libgtest.a)
-    set(ARMADILLO_INCLUDE /Users/richard/Desktop/armadillo-12.8.1/include)
-    set(ARMADILLO_LIB /Users/richard/Desktop/armadillo-12.8.1/build/libarmadillo.dylib)
+    #    set(ARMADILLO_INCLUDE /Users/richard/Desktop/armadillo-12.8.1/include)
+#        set(ARMADILLO_LIB /Users/richard/Desktop/armadillo-12.8.1/build/libarmadillo.dylib)
 ELSE ()
     message(STATUS "Other Platform: ${CMAKE_SYSTEM_NAME}")
 ENDIF (CMAKE_SYSTEM_NAME MATCHES "Linux")
 
+set(ARMADILLO_LIB /usr/local/lib/libarmadillo.dylib)
+
 find_package(glog REQUIRED)
 find_package(GTest REQUIRED)
+find_package(Armadillo REQUIRED)
 
 
 file(GLOB_RECURSE SRC_FILES
@@ -32,12 +35,14 @@ add_executable(${PROJECT_NAME} ${SRC_FILES})
 
 include_directories(
         ${PROJECT_SOURCE_DIR}/include
-        ${ARMADILLO_INCLUDE}
+        #        ${ARMADILLO_INCLUDE}
 )
 
 target_link_libraries(${PROJECT_NAME}
-        ${ARMADILLO_LIB}
         GTest::gtest
         glog::glog
         blas
-        pthread)
+        pthread
+        ${ARMADILLO_LIB}
+#        armadillo
+)
