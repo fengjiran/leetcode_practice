@@ -36,9 +36,10 @@ include_directories(
 )
 
 target_link_libraries(${PROJECT_NAME}
-        GTest::gtest
+#        GTest::gtest
+        GTest::gtest_main
         glog::glog
         blas
         pthread
-        armadillo
+        ${ARMADILLO_LIBRARY}
 )
