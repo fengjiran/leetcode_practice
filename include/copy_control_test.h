@@ -122,6 +122,15 @@ public:
     size_t capacity() const { return cap - start; }
     T* begin() const { return start; }
     T* end() const { return firstFree; }
+    void reserve(size_t n);
+    void resize(size_t n);
+    void resize(size_t n, const T& t);
+
+    void push_back(const T& t);
+    void push_back(T&& t);
+
+    template<typename... Args>
+    void emplace_back(Args&&... args);
 
     ~vec();
 
@@ -142,6 +151,54 @@ private:
     T* cap;
     T* firstFree;
 };
+
+template<typename T, typename Allocator>
+template<typename... Args>
+void vec<T, Allocator>::emplace_back(Args&&... args) {
+    CheckAndAlloc();
+    allocTraits::allocate(alloc, firstFree++, std::forward<Args>(args)...);
+}
+
+template<typename T, typename Allocator>
+void vec<T, Allocator>::push_back(T&& t) {
+    CheckAndAlloc();
+    allocTraits::construct(alloc, firstFree++, std::move(t));
+}
+
+template<typename T, typename Allocator>
+void vec<T, Allocator>::push_back(const T& t) {
+    CheckAndAlloc();
+    allocTraits::construct(alloc, firstFree++, t);
+}
+
+template<typename T, typename Allocator>
+void vec<T, Allocator>::resize(size_t n) {
+    if (n > size()) {
+        while (size() < n) {
+            push_back(T());
+        }
+    } else {
+        while (size() > n) {
+            allocTraits::destroy(alloc, --firstFree);
+        }
+    }
+}
+
+template<typename T, typename Allocator>
+void vec<T, Allocator>::resize(size_t n, const T& t) {
+    if (n > size()) {
+        while (size() < n) {
+            push_back(t);
+        }
+    }
+}
+
+template<typename T, typename Allocator>
+void vec<T, Allocator>::reserve(size_t n) {
+    if (n > capacity()) {
+        reallocate(n);
+    }
+}
 
 template<typename T, typename Allocator>
 vec<T, Allocator>::~vec() {
