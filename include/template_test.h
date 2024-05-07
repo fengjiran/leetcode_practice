@@ -127,6 +127,91 @@ T& Blob<T>::operator[](size_type i) {
     return (*data)[i];
 }
 
+
+/**
+ * @brief shared_ptr
+ * @tparam T
+ */
+template<typename T>
+class SP {
+public:
+    SP() : p(nullptr), use(nullptr) {}
+    explicit SP(T* pt) : p(pt), use(new size_t(1)) {}
+    SP(const SP& rhs) : p(rhs.p), use(rhs.use) {
+        if (use) {
+            ++*use;
+        }
+    }
+    SP& operator=(const SP& rhs);
+    SP(SP&& rhs) noexcept;
+    SP& operator=(SP&& rhs) noexcept;
+    ~SP();
+    T& operator*() {
+        return *p;
+    }
+    T& operator*() const {
+        return *p;
+    }
+
+private:
+    T* p;
+    size_t* use;
+};
+
+template<typename T>
+SP<T>::~SP() {
+    if (use && --*use == 0) {
+        delete p;
+        delete use;
+    }
+}
+
+template<typename T>
+SP<T>& SP<T>::operator=(const SP<T>& rhs) {
+    if (this != &rhs) {
+        if (rhs.use) {
+            ++*rhs.use;
+        }
+
+        if (use && --*use == 0) {
+            delete p;
+            delete use;
+        }
+        p = rhs.p;
+        use = rhs.use;
+    }
+    return *this;
+}
+
+template<typename T>
+SP<T>::SP(SP<T>&& rhs) noexcept {
+    p = rhs.p;
+    use = rhs.use;
+
+    rhs.p = nullptr;
+    rhs.use = nullptr;
+}
+
+template<typename T>
+SP<T>& SP<T>::operator=(SP<T>&& rhs) noexcept {
+    if (this != &rhs) {
+        if (use && --*use == 0) {
+            delete p;
+            delete use;
+        }
+        p = rhs.p;
+        use = rhs.use;
+        rhs.p = nullptr;
+        rhs.use = nullptr;
+    }
+    return *this;
+}
+
+template<typename T, typename... Args>
+SP<T> make_SP(Args&&... args) {
+    return SP<T>(new T(std::forward<Args>(args)...));
+}
+
 }// namespace TemplateTest
 
 #endif//LEETCODE_PRACTICE_TEMPLATE_TEST_H
