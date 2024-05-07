@@ -76,6 +76,9 @@ StrVec::StrVec(size_t n) {
     start = newdata;
     firstFree = newdata;
     cap = start + n;
+    for (size_t i = 0; i < n; ++i) {
+        strAllocator::construct(alloc, firstFree++, "");
+    }
 }
 
 StrVec::StrVec(size_t n, const std::string& s) {
@@ -220,12 +223,12 @@ TEST(CopyControlTest, test2) {
 TEST(CopyControlTest, test3) {
     std::cout << "\ncopy control test3:\n";
     StrVec vec(5);
-    EXPECT_EQ(vec.size(), 0);
+    EXPECT_EQ(vec.size(), 5);
     EXPECT_EQ(vec.capacity(), 5);
 
     vec.push_back("abc");
-    EXPECT_EQ(vec.size(), 1);
-    EXPECT_EQ(vec.capacity(), 5);
+    EXPECT_EQ(vec.size(), 6);
+    EXPECT_EQ(vec.capacity(), 10);
 }
 
 TEST(CopyControlTest, test4) {

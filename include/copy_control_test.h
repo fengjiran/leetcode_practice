@@ -102,6 +102,29 @@ private:
     std::string* cap;
     std::string* firstFree;
 };
+
+template<typename T, typename Allocator = std::allocator<T>>
+class vec {
+public:
+    vec() : start(nullptr), cap(nullptr), firstFree(nullptr) {}
+    vec(std::initializer_list<T> il);
+    explicit vec(size_t n);
+    vec(size_t n, const T& t);
+
+    // copy ctor
+    vec(const vec& rhs);
+    vec& operator=(const vec& rhs);
+    // move ctor
+    vec(vec&& rhs) noexcept;
+    vec& operator=(vec&& rhs) noexcept;
+
+private:
+
+    using alloc = std::allocator_traits<Allocator>;
+    T* start;
+    T* cap;
+    T* firstFree;
+};
 }// namespace CopyControlTest
 
 #endif//LEETCODE_PRACTICE_COPY_CONTROL_TEST_H
