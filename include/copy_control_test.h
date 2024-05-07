@@ -118,13 +118,119 @@ public:
     vec(vec&& rhs) noexcept;
     vec& operator=(vec&& rhs) noexcept;
 
-private:
+    size_t size() const { return firstFree - start; }
+    size_t capacity() const { return cap - start; }
+    T* begin() const { return start; }
+    T* end() const { return firstFree; }
 
-    using alloc = std::allocator_traits<Allocator>;
+
+private:
+    std::pair<T*, T*> Allocate(const T* b, const T* e);
+    void free();
+    void reallocate();
+    void reallocate(size_t newCap);
+    void CheckAndAlloc() {
+        if (firstFree == cap) {
+            reallocate();
+        }
+    }
+
+    using allocTraits = std::allocator_traits<Allocator>;
+    Allocator alloc;
     T* start;
     T* cap;
     T* firstFree;
 };
+
+template<typename T, typename Allocator>
+vec<T, Allocator>& vec<T, Allocator>::operator=(vec&& rhs) noexcept {
+    if (this != &rhs) {
+        free();
+        start = rhs.start;
+        firstFree = rhs.firstFree;
+        cap = rhs.cap;
+
+        rhs.start = nullptr;
+        rhs.firstFree = nullptr;
+        rhs.cap = nullptr;
+    }
+    return *this;
+}
+
+template<typename T, typename Allocator>
+vec<T, Allocator>::vec(vec&& rhs) noexcept : start(rhs.start), firstFree(rhs.firstFree), cap(rhs.cap) {
+    rhs.start = nullptr;
+    rhs.firstFree = nullptr;
+    rhs.cap = nullptr;
+}
+
+template<typename T, typename Allocator>
+vec<T, Allocator>::vec(size_t n) {
+    auto data = allocTraits::allocate(alloc, n);
+    start = data;
+    firstFree = data;
+    cap = start + n;
+    for (size_t i = 0; i < n; ++i) {
+        allocTraits::construct(alloc, firstFree++, T());
+    }
+}
+
+template<typename T, typename Allocator>
+vec<T, Allocator>::vec(size_t n, const T& t) {
+    auto data = allocTraits::allocate(alloc, n);
+    start = data;
+    firstFree = data;
+    cap = start + n;
+    for (size_t i = 0; i < n; ++i) {
+        allocTraits::construct(alloc, firstFree++, t);
+    }
+}
+
+template<typename T, typename Allocator>
+vec<T, Allocator>::vec(std::initializer_list<T> il) {
+    auto data = Allocate(il.begin(), il.end());
+    start = data.first;
+    firstFree = data.second;
+    cap = data.second;
+}
+
+template<typename T, typename Allocator>
+vec<T, Allocator>::vec(const vec<T, Allocator>& rhs) {
+    auto data = Allocate(rhs.begin(), rhs.end());
+    start = data.first;
+    firstFree = data.second;
+    cap = data.second;
+}
+
+template<typename T, typename Allocator>
+vec<T, Allocator>& vec<T, Allocator>::operator=(const vec<T, Allocator>& rhs) {
+    if (this != &rhs) {
+        auto data = Allocate(rhs.begin(), rhs.end());
+        free();
+        start = data.first;
+        firstFree = data.second;
+        cap = data.second;
+    }
+    return *this;
+}
+
+template<typename T, typename Allocator>
+std::pair<T*, T*> vec<T, Allocator>::Allocate(const T* b, const T* e) {
+    auto dst = allocTraits::allocate(alloc, e - b);
+    return {dst, std::uninitialized_copy(b, e, dst)};
+}
+
+template<typename T, typename Allocator>
+void vec<T, Allocator>::free() {
+    if (start) {
+        auto p = firstFree;
+        while (p != start) {
+            allocTraits::destroy(alloc, --p);
+        }
+        allocTraits::deallocate(alloc, start, cap - start);
+    }
+}
+
 }// namespace CopyControlTest
 
 #endif//LEETCODE_PRACTICE_COPY_CONTROL_TEST_H
