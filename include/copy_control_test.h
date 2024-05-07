@@ -132,6 +132,9 @@ public:
     template<typename... Args>
     void emplace_back(Args&&... args);
 
+    T& operator[](size_t pos);
+    const T& operator[](size_t pos) const;
+
     ~vec();
 
 private:

@@ -240,6 +240,9 @@ TEST(CopyControlTest, test4) {
     for (auto& it: vec) {
         std::cout << it << std::endl;
     }
+
+    std::vector<int> a(10);
+    a[0] = 1;
 }
 
 }// namespace CopyControlTest
