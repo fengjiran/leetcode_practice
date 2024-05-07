@@ -212,6 +212,45 @@ SP<T> make_SP(Args&&... args) {
     return SP<T>(new T(std::forward<Args>(args)...));
 }
 
+template<typename T>
+class UP {
+public:
+    UP() : p(nullptr) {}
+    explicit UP(T* pt) : p(pt) {}
+    UP(const UP& rhs) = delete;
+    UP& operator=(const UP& rhs) = delete;
+    ~UP();
+    T* release();
+    void reset(T* new_p);
+    T& operator*() {
+        return *p;
+    }
+    T& operator*() const {
+        return *p;
+    }
+
+private:
+    T* p;
+};
+template<typename T>
+T* UP<T>::release() {
+    T* q = p;
+    p = nullptr;
+    return q;
+}
+
+template<typename T>
+UP<T>::~UP() {
+    delete p;
+}
+
+template<typename T>
+void UP<T>::reset(T* new_p) {
+    delete p;
+    p = new_p;
+}
+
+
 }// namespace TemplateTest
 
 #endif//LEETCODE_PRACTICE_TEMPLATE_TEST_H
