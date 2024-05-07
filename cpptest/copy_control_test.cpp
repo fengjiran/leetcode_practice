@@ -102,6 +102,12 @@ void StrVec::push_back(std::string&& s) {
     strAllocator::construct(alloc, firstFree++, std::move(s));
 }
 
+template<typename... Args>
+void StrVec::emplace_back(Args&&... args) {
+    CheckAndAlloc();
+    strAllocator::construct(alloc, firstFree++, std::forward<Args>(args)...);
+}
+
 void StrVec::reallocate() {
     size_t newcap = size() != 0 ? 2 * size() : 1;
     auto newdata = strAllocator::allocate(alloc, newcap);
@@ -220,6 +226,17 @@ TEST(CopyControlTest, test3) {
     vec.push_back("abc");
     EXPECT_EQ(vec.size(), 1);
     EXPECT_EQ(vec.capacity(), 5);
+}
+
+TEST(CopyControlTest, test4) {
+    std::cout << "\ncopy control test4:\n";
+    StrVec vec;
+    vec.emplace_back("end");
+    vec.emplace_back(3, '!');
+    EXPECT_EQ(vec.size(), 2);
+    for (auto& it: vec) {
+        std::cout << it << std::endl;
+    }
 }
 
 }// namespace CopyControlTest

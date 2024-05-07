@@ -70,6 +70,10 @@ public:
 
     void push_back(const std::string&);
     void push_back(std::string&&);
+
+    template<typename... Args>
+    void emplace_back(Args&&... args);
+
     size_t size() const { return firstFree - start; }
     size_t capacity() const { return cap - start; }
     std::string* begin() const { return start; }
