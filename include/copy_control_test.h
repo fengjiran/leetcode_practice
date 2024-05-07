@@ -123,6 +123,7 @@ public:
     T* begin() const { return start; }
     T* end() const { return firstFree; }
 
+    ~vec();
 
 private:
     std::pair<T*, T*> Allocate(const T* b, const T* e);
@@ -141,6 +142,44 @@ private:
     T* cap;
     T* firstFree;
 };
+
+template<typename T, typename Allocator>
+vec<T, Allocator>::~vec() {
+    free();
+}
+
+template<typename T, typename Allocator>
+void vec<T, Allocator>::reallocate(size_t newCap) {
+    auto data = allocTraits::allocate(alloc, newCap);
+    auto src = start;
+    auto dst = data;
+    for (size_t i = 0; i < size(); ++i) {
+        allocTraits::construct(alloc, dst, std::move(*src));
+        ++src;
+        ++dst;
+    }
+    free();
+    start = data;
+    firstFree = dst;
+    cap = start + newCap;
+}
+
+template<typename T, typename Allocator>
+void vec<T, Allocator>::reallocate() {
+    size_t newCap = size() != 0 ? 2 * size() : 1;
+    auto data = allocTraits::allocate(alloc, newCap);
+    auto src = start;
+    auto dst = data;
+    for (size_t i = 0; i < size(); ++i) {
+        allocTraits::construct(alloc, dst, std::move(*src));
+        ++src;
+        ++dst;
+    }
+    free();
+    start = data;
+    firstFree = dst;
+    cap = start + newCap;
+}
 
 template<typename T, typename Allocator>
 vec<T, Allocator>& vec<T, Allocator>::operator=(vec&& rhs) noexcept {
